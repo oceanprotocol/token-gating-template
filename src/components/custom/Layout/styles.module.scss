@@ -1,0 +1,185 @@
+.absoluteImage {
+  position: absolute;
+  bottom: -5px;
+  right: -7px;
+}
+
+.textFooter {
+  color: #9f9f9f;
+  width: 150px;
+}
+
+.expandVerticalMenu {
+  width: 305px;
+  min-width: 305px;
+  transition: all 0.5s ease-out;
+  overflow: hidden;
+}
+
+.collapseVerticalMenu {
+  width: 0;
+  min-width: 0;
+  transition: all 0.5s ease-out;
+}
+
+.expandButton {
+  -webkit-transform: scaleX(-1) translate(-25px, 0);
+  transform: scaleX(-1) translate(-25px, 0);
+  transition: all 0.5s ease-out;
+}
+
+.nonExpandButton {
+  -webkit-transform: scaleX(1) translate(0);
+  transform: scaleX(1) translate(0);
+  transition: all 0.5s ease-out;
+}
+
+.layoutSize {
+  min-height: 100vh;
+}
+
+.bgHeader {
+  background-color: #000;
+}
+
+.burgerButton {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z" fill="grey"/></svg>');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  .burgerItem {
+    width: 20px;
+    height: 2px;
+    margin: 3px 0;
+    background-color: #333;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.mobileHeaderContainer {
+  display: none;
+  align-items: center;
+  padding: 0 10px;
+  background-color: var(--background);
+  margin-top: 18px;
+
+  .burgerMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 24px;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #000;
+      border-radius: 2px;
+    }
+  }
+
+  .logo {
+    height: 30px;
+  }
+}
+
+.mobileHeaderContainer {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background-color: white;
+  margin-top: 18px;
+  width: 100%;
+
+  .burgerMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 24px;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #000;
+      border-radius: 2px;
+    }
+  }
+
+  .logo {
+    height: 30px;
+  }
+}
+
+.mobileMenuLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.mobileMenuLinks a {
+  margin-bottom: 1rem;
+}
+
+.navBtn {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  padding: 15px 17px 15px 49px;
+}
+
+.navBtn:hover {
+  background-color: #ea414b;
+  border: none;
+  border-right: 4px solid white;
+  color: white;
+  border-radius: 0;
+  padding: 15px 13px 15px 49px;
+}
+
+.activeNavBtn {
+  background-color: #ea414b;
+  border: none;
+  border-right: 4px solid white;
+  color: white;
+  border-radius: 0;
+  padding: 15px 13px 15px 49px;
+}
+
+.linkMobile {
+  padding: 10px 30px;
+  width: 374px;
+  height: 40px;
+  background: #eaeaea;
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 500px) {
+  .mobileHeaderContainer {
+    height: 100vh;
+    align-items: start;
+  }
+
+  .bgHeader {
+    background-color: white !important;
+  }
+}

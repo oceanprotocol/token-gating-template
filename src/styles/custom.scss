@@ -1,0 +1,299 @@
+@font-face {
+  font-family: 'Signika Negative Bold';
+  src: url('../../public/fonts/SignikaNegative-Bold.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Signika Negative Light';
+  src: url('../../public/fonts/SignikaNegative-Light.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Signika Negative Medium';
+  src: url('../../public/fonts/SignikaNegative-Medium.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'SignikaNegative-Bold';
+  src: url('../../public/fonts/SignikaNegative-Bold.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist-ExtraLight';
+  src: url('../../public/fonts/Urbanist-ExtraLight.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist-Light';
+  src: url('../../public/fonts/Urbanist-Light.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist-Medium';
+  src: url('../../public/fonts/Urbanist-Medium.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist-Regular';
+  src: url('../../public/fonts/Urbanist-Regular.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist-Bold';
+  src: url('../../public/fonts/Urbanist-Bold.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist-ExtraBold';
+  src: url('../../public/fonts/Urbanist-ExtraBold.ttf') format('opentype');
+}
+
+.signikaMedium17 {
+  font-family: 'Signika Negative Regular';
+  src: url('../../public/fonts/SignikaNegative-Regular.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Signika Negative SemiBold';
+  src: url('../../public/fonts/SignikaNegative-SemiBold.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Urbanist';
+  src: url('../../public/fonts/Urbanist-Regular.ttf') format('opentype');
+}
+
+.urbanist16 {
+  font-family: 'Urbanist';
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.signikaRegular17 {
+  font-family: 'Signika Negative Regular';
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+.signikaMedium14 {
+  font-family: 'Signika Negative Medium';
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.signikaMedium20 {
+  font-family: 'Signika Negative Medium';
+  font-size: 20px;
+  line-height: 25px;
+  letter-spacing: 0;
+}
+
+.signikaLight18 {
+  font-family: 'Signika Negative Light';
+  font-size: 18px;
+  letter-spacing: 0;
+}
+
+.signikaBold40 {
+  font-family: 'Signika Negative Bold';
+  font-size: 40px;
+  letter-spacing: 0;
+}
+
+.signikaBold30 {
+  font-family: 'SignikaNegative-Bold';
+  letter-spacing: 0;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 37px;
+}
+
+.signikaBold25 {
+  font-family: 'Signika Negative Bold';
+  font-size: 25px;
+  letter-spacing: 0;
+}
+
+.signikaLight15 {
+  font-family: 'Signika Negative Light';
+  font-size: 15px;
+  letter-spacing: 0;
+  text-align: justify;
+}
+
+.UrbanistExtraLight16 {
+  font-family: 'Urbanist-ExtraLight';
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 17px;
+}
+
+.UrbanistExtraLight14 {
+  font-family: 'Urbanist-ExtraLight';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.UrbanistLight16 {
+  font-family: 'Urbanist-Light';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.UrbanistLight14 {
+  font-family: 'Urbanist-Light';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.UrbanistMedium20 {
+  font-family: 'Urbanist-Medium';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.UrbanistRegular20 {
+  font-family: 'Urbanist-Regular';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.UrbanistRegular18 {
+  font-family: 'Urbanist-Regular';
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.UrbanistRegular16 {
+  font-family: 'Urbanist-Regular';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.UrbanistBold14 {
+  font-family: 'Urbanist-Bold';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.UrbanistExtraBold24 {
+  font-family: 'Urbanist-ExtraBold';
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.UrbanistExtraBold11 {
+  font-family: 'Urbanist-ExtraBold';
+  font-weight: 900;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.colorPrimary {
+  color: var(--primary);
+}
+
+.colorBackground {
+  color: var(--background);
+}
+
+.colorOrange {
+  color: var(--orange);
+}
+
+.colorGrey {
+  color: var(--grey);
+}
+
+.colorGreyLighter {
+  color: var(--grey-lighter);
+}
+
+.colorWhite {
+  color: var(--white);
+}
+
+.colorFadeGrey {
+  color: var(--fade-grey);
+}
+
+.colorMaxWhite {
+  color: var(--max-white);
+}
+
+.colorCoal {
+  color: var(--coal);
+}
+
+.colorAmaranth {
+  color: var(--amaranth);
+}
+
+.colorRed {
+  color: var(--red);
+}
+
+.colorSilver {
+  color: var(--silver);
+}
+
+.colorRaisinBlack {
+  color: var(--raisin-black);
+}
+
+.iconBtn {
+  border: none;
+  width: 35px;
+  height: 35px;
+}
+
+.line-height-25 {
+  line-height: 25px;
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  border: 5px solid var(--orange);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .signikaMedium14 {
+    font-family: 'Signika Negative Medium';
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .signikaBold30 {
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  .UrbanistRegular18 {
+    font-size: 12px;
+    line-height: 24px;
+  }
+}

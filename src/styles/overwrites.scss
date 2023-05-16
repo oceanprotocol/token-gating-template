@@ -1,0 +1,24 @@
+@import './variables';
+
+:root {
+  --primary: #{$primary};
+  --background: #{$background};
+  --background-highlight: #{$background-highlight};
+  --backgdrop-light: #{$backdrop-light};
+  --backdrop: #{$backdrop};
+  --orange: #{$orange};
+  --grey: #{$grey};
+  --grey-lighter: #{$grey-lighter};
+  --white: #{$background};
+  --fade-grey: #{$fade-grey};
+  --max-white: #{$max-white};
+  --coal: #{$coal};
+  --border: #{$border};
+  --box-shadow: #{$box-shadow};
+  --raisin-black: #{$raisin-black};
+  --font-color-text: #{$font-color-text};
+  --gainsboro: #{$gainsboro};
+  --amaranth: #{$amaranth};
+  --red: #{$red};
+  --silver: #{$silver};
+}

@@ -1,0 +1,42 @@
+.text {
+  margin-left: 250px;
+  margin-right: 250px;
+}
+
+.img {
+  width: 520px;
+  height: 336.23px;
+}
+
+.imgSmall {
+  width: 190px;
+  height: 166px;
+}
+
+.imgBlur {
+  width: 931px;
+  height: 750px;
+}
+
+
+@media only screen and (max-width: 500px) {
+  .text {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .img {
+    width: 397px;
+    height: 294px;
+  }
+
+  .imgBlur {
+    width: 400px;
+    height: 345px;
+  }
+
+  .imgSmall {
+    width: 192px;
+    height: 166px;
+  }
+}

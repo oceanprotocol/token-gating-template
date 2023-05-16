@@ -1,0 +1,98 @@
+.backDrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  background: var(--backgdrop-light);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  opacity: 1;
+  -webkit-overflow-scrolling: touch;
+  -webkit-animation: fadeIn 0.2s ease-out backwards;
+  animation: fadeIn 0.2s ease-out backwards;
+  transition: opacity 0.1s ease-in-out 0s;
+  will-change: opacity;
+}
+
+.body {
+  position: fixed;
+  top: 40%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+  max-width: fit-content;
+  opacity: 1;
+  border-radius: 0.2rem;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 15px 0 var(--box-shadow);
+  -webkit-animation: moveUp 0.2s ease-out backwards;
+  animation: moveUp 0.2s ease-out backwards;
+  background-color: var(--raisin-black);
+  color: var(--font-color-text);
+}
+
+.optionBlockMetamask {
+  border: none;
+  background-color: var(--raisin-black);
+  color: var(--font-color-text);
+  transition: background-color 0.2s ease-in-out 0s;
+  filter: grayscale(1);
+  white-space: nowrap;
+  padding: 35px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+
+  &:hover {
+    background-color: var(--background-highlight);
+    color: var(--raisin-black);
+    filter: grayscale(0);
+    cursor: pointer;
+  }
+}
+
+.optionBlockWalletConnect {
+  border: none;
+  background-color: var(--raisin-black);
+  color: var(--font-color-text);
+  transition: background-color 0.2s ease-in-out 0s;
+  filter: grayscale(1);
+  white-space: nowrap;
+  padding: 35px;
+  border-bottom: 1px solid var(--border);
+
+  &:hover {
+    background-color: var(--background-highlight);
+    color: var(--raisin-black);
+    filter: grayscale(0);
+    cursor: pointer;
+  }
+}
+
+.disabled {
+  filter: grayscale(1);
+  cursor: default;
+}
+
+@media screen and (max-width: 767px) {
+  .body {
+    top: 25%;
+    max-width: 80vw;
+    padding: 27px;
+    overflow-y: scroll;
+  }
+
+  .optionBlockMetamask {
+    border-right: 0;
+  }
+
+  .optionBlockWalletConnect {
+    border-left: 0;
+    border-bottom: 0;
+  }
+}

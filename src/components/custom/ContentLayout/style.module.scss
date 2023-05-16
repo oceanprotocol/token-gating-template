@@ -1,0 +1,16 @@
+.text {
+  margin-left: 250px;
+  margin-right: 250px;
+}
+
+@media only screen and (max-width: 500px) {
+  .img {
+    width: 400px;
+    height: 345px;
+  }
+
+  .text {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

@@ -1,0 +1,22 @@
+.img {
+  width: 931px;
+  height: 750px;
+}
+
+.imgBlur {
+  width: auto;
+  max-width: 1045px;
+  height: 541px;
+}
+
+@media only screen and (max-width: 500px) {
+  .img {
+    width: 400px;
+    height: 345px;
+  }
+  
+  .imgBlur {
+    width: 400px;
+    height: 345px;
+  }
+}

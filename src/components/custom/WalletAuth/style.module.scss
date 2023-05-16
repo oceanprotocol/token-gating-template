@@ -1,0 +1,76 @@
+.absoluteImage {
+  position: absolute;
+  bottom: -5px;
+  right: -7px;
+}
+
+.textFooter {
+  color: #9f9f9f;
+  width: 150px;
+}
+
+.expandVerticalMenu {
+  width: 305px;
+  min-width: 305px;
+  transition: all 0.5s ease-out;
+  overflow: hidden;
+}
+
+.collapseVerticalMenu {
+  width: 0;
+  min-width: 0;
+  transition: all 0.5s ease-out;
+}
+
+.expandButton {
+  -webkit-transform: scaleX(-1) translate(-25px, 0);
+  transform: scaleX(-1) translate(-25px, 0);
+  transition: all 0.5s ease-out;
+}
+
+.nonExpandButton {
+  -webkit-transform: scaleX(1) translate(0);
+  transform: scaleX(1) translate(0);
+  transition: all 0.5s ease-out;
+}
+
+.layoutSize {
+  min-height: 100vh;
+}
+
+.address {
+  cursor: pointer;
+}
+
+.details {
+  position: absolute;
+  top: 60px;
+  right: 50px;
+  padding: 30px 22px 20px;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  min-width: 320px;
+  z-index: 10;
+}
+
+.modalTip {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  transform: rotate(-45deg);
+  z-index: 9;
+  top: -8px;
+  right: 50%;
+}
+
+.balance {
+  border-bottom: 1px solid var(--gainsboro);
+  padding-bottom: 17px;
+}
+
+.actions {
+  padding-top: 17px;
+}

@@ -1,0 +1,47 @@
+.body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 26, 26, 0.92);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 220px;
+}
+
+.container {
+  max-width: 562px;
+  margin: 0 auto;
+}
+
+.buy {
+  padding: 10px 0px;
+  gap: 5px;
+  background: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 20px;
+}
+
+.imgBlur {
+  width: 931px;
+  height: 750px;
+}
+
+@media only screen and (max-width: 500px) {
+  .body {
+    padding: 54px 58px;
+    height: fit-content;
+  }
+
+  .container {
+    max-width: none;
+    margin: auto;
+  }
+
+  .imgBlur {
+    width: 400px;
+    height: 345px;
+  }
+}

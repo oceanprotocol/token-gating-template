@@ -1,0 +1,43 @@
+.container {
+  padding: 111px 0;
+  margin: 0 auto;
+  min-height: 710px;
+}
+
+.addressContainer {
+  max-width: 542px;
+}
+
+.linkBox {
+  width: 100%;
+}
+
+.assetsDetails {
+  border: 1px solid var(--gainsboro);
+  border-radius: 5px;
+  min-height: 146px;
+  max-width: 809px;
+}
+
+.separator {
+  border-right: 1px solid var(--gainsboro);
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    padding: 28px 0;
+  }
+
+  .addressContainer {
+    max-width: 95vw;
+  }
+
+  .assetsDetails {
+    border: none;
+    padding: 0 18px;
+  }
+
+  .separator {
+    border-right: none;
+  }
+}

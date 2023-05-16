@@ -1,0 +1,73 @@
+@import '~bootstrap/scss/bootstrap';
+@import './overwrites';
+@import './custom.scss';
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+#__next {
+  min-height: 100vh;
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ea414b;
+  border: none;
+  border-radius: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: white;
+  height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.clean-empty-button {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.clean-empty-hyperlink {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+ol,
+ul {
+  padding-left: 2rem;
+}
+
+@media only screen and (max-width: 500px) {
+  ol,
+  ul {
+    padding-left: 0rem;
+  }
+}

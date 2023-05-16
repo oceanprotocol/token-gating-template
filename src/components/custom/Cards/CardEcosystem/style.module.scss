@@ -1,0 +1,35 @@
+.container {
+  margin: 34px 15px 20px;
+  width: 256px;
+  height: 323px;
+  margin-top: 64px;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.img {
+  width: 135px;
+  height: 135px;
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    margin: 34px 15px 20px;
+    width: 355px;
+    height: 100px;
+  }
+
+  .justify {
+    text-align: justify;
+    overflow: hidden;
+    width: 236px;
+    height: 70px;
+  }
+  
+  .img {
+    width: 100px;
+    height: 100px;
+  }
+}
