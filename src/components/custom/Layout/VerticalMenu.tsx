@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './styles.module.scss';
 
-import logoHeader from '../../../assets/logoHeader.svg';
+import logoHeader from '../../../assets/logo.svg';
 import Lock from '../Lock';
 import useVerticalMenu from './hooks/useVerticalMenu';
 
@@ -26,11 +26,11 @@ const VerticalMenu: NextPage<VerticalMenuPropsType> = ({ isExpanded }) => {
     <div
       className={cx([
         styles.expandVerticalMenu,
-        'bg-black text-white py-3 d-none d-md-flex flex-column',
+        'bg-black text-white pb-3 d-none d-md-flex flex-column',
         { [styles.collapseVerticalMenu]: isExpanded },
       ])}
     >
-      <Image src={logoHeader} alt="logo" className="w-100" />
+      <Image src={logoHeader} alt="logo" className={cx(styles.headerLogo, 'mt-5')} />
       <div className="d-flex flex-column mt-5 px-2">
         {MenuLinks.map((link) => {
           return (

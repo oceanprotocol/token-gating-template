@@ -148,7 +148,7 @@
 }
 
 .navBtn:hover {
-  background-color: #ea414b;
+  background-color: var(--magenta);
   border: none;
   border-right: 4px solid white;
   color: white;
@@ -157,7 +157,7 @@
 }
 
 .activeNavBtn {
-  background-color: #ea414b;
+  background-color: var(--magenta);
   border: none;
   border-right: 4px solid white;
   color: white;
@@ -171,6 +171,20 @@
   height: 40px;
   background: #eaeaea;
   border-radius: 5px;
+}
+
+.headerLogo {
+  margin: 10px auto 0;
+  max-width: 200px;
+}
+
+.footerLogo {
+  width: 106px;
+  height: 39px;
+}
+
+.mobileHeaderLogo {
+  width: 156px;
 }
 
 @media only screen and (max-width: 500px) {
