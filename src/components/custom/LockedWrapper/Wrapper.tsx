@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Image from 'next/image';
 import cs from 'classnames';
@@ -6,7 +6,8 @@ import cs from 'classnames';
 import style from './style.module.scss';
 
 import shoppingCart from '../../../assets/cart.svg';
-import lock from '../../../assets/lock2.svg';
+import lockGif from '../../../assets/lock.gif';
+import lockframe from '../../../assets/frame-lock.gif';
 import linkVector from '../../../assets/VectorLink.svg';
 
 type WrapperPropType = {
@@ -17,6 +18,8 @@ type WrapperPropType = {
 };
 
 const Wrapper: NextPage<WrapperPropType> = ({ show, price, unlock, loading }) => {
+  const [hoverUnlock, setHoverUnlock] = useState(false);
+
   return (
     <>
       {show && (
@@ -39,6 +42,8 @@ const Wrapper: NextPage<WrapperPropType> = ({ show, price, unlock, loading }) =>
                 <button
                   type="button"
                   onClick={() => unlock()}
+                  onMouseEnter={(e: React.MouseEvent) => setHoverUnlock(true)}
+                  onMouseLeave={(e: React.MouseEvent) => setHoverUnlock(false)}
                   className={cs(
                     style.buy,
                     'd-flex flex-row justify-content-center align-items-center text-white w-100',
@@ -54,7 +59,13 @@ const Wrapper: NextPage<WrapperPropType> = ({ show, price, unlock, loading }) =>
               </div>
             </div>
             <div className="d-none d-md-flex">
-              <Image src={lock} alt="lock" priority />
+              {!hoverUnlock ? (
+                <Image src={lockframe} alt="lock" priority />
+              ) : (
+                <>
+                  <Image src={lockGif} alt="lockGif" priority unoptimized />
+                </>
+              )}
             </div>
           </div>
         </div>

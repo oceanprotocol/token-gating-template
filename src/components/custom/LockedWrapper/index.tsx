@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Image, { StaticImageData } from 'next/image';
 import { Asset } from '@oceanprotocol/lib';
 import cs from 'classnames';
 
@@ -15,7 +14,6 @@ type LockedWrapperPropType = {
   accessDetails: AccessDetails[];
   asset: Asset | undefined;
   loading: boolean;
-  srcBluredImg: string | StaticImageData;
 };
 
 const LockedWrapper: NextPage<LockedWrapperPropType> = ({
@@ -24,13 +22,17 @@ const LockedWrapper: NextPage<LockedWrapperPropType> = ({
   accessDetails,
   asset,
   loading,
-  srcBluredImg,
 }) => {
   const { hasAccess, getServicePrice, handleOrder } = useAssetOwnershipContext();
 
   return (
-    <div className="position-relative mx-0 mx-md-5 d-flex flex-row justify-content-center">
-      <Image src={srcBluredImg} alt="bluredGrafic" className={cs(style.imgBlur)} />
+    <div
+      className={cs(
+        style.wrapperContainer,
+        'position-relative mx-0 mx-md-5 d-flex flex-row justify-content-center mt-4',
+      )}
+    >
+      <video autoPlay muted loop src="/AdobeStock_279259623.mov" className={cs(style.imgBlur)} />
       <Wrapper
         show={!hasAccess(serviceIndex)}
         price={getServicePrice(serviceIndex)}

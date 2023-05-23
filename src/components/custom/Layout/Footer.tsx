@@ -8,7 +8,7 @@ import cs from 'classnames';
 import config from '../../../../config';
 
 import styles from './styles.module.scss';
-import Logo from '../../../assets/logoFooter.svg';
+import Logo from '../../../assets/logo.svg';
 
 const {
   routes: { homepage, chatgptPrompts, midjourneyPrompts, challanges, ecosystem },
@@ -22,7 +22,7 @@ const Footer: NextPage = () => {
       <div className="d-flex flex-column flex-md-row justify-content-between w-100 p-3">
         <div className="d-flex flex-row flex-md-column align-items-center order-1 order-md-0 my-3">
           <Link href="#">
-            <Image src={Logo} alt="navbar logo" />
+            <Image src={Logo} alt="navbar logo" className={styles.footerLogo} />
           </Link>
           <div className={cs(styles.textFooter, 'mt-0 mt-md-3 ms-4 ms-md-0')}>
             © Ocean Gate

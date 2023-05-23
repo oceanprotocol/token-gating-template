@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 
 import { useAssetOwnershipContext } from '../../../shared/contexts/AssetOwnership.context';
 import { DemoAssetIndexEnum, DemoAssetsEnum } from '../../../shared/const/demoAssetsEnum';
-import Page1Blur from '../../../assets/page1_blur.png';
 import LockedWrapper from '../../custom/LockedWrapper';
 import CardGPTPropmts from '../../custom/Cards/CardGPTPrompts';
 import useChatGPTPrompts from './useChatGPTPrompts';
@@ -39,7 +38,6 @@ const ChatGPTPrompts: NextPage = () => {
             accessDetails={tokenAccessDetails}
             asset={asset}
             loading={isLoadingOrder}
-            srcBluredImg={Page1Blur}
           />
         )}
       </ContentLayout>

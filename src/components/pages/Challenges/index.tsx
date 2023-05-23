@@ -6,7 +6,6 @@ import style from './style.module.scss';
 
 import { useAssetOwnershipContext } from '../../../shared/contexts/AssetOwnership.context';
 import { DemoAssetsEnum, DemoAssetIndexEnum } from '../../../shared/const/demoAssetsEnum';
-import Page3Blur from '../../../assets/page3_blur.png';
 import LockedWrapper from '../../custom/LockedWrapper';
 import CardChallenges from '../../custom/Cards/CardChallenges';
 import useChallenges from './useChallenges';
@@ -45,7 +44,6 @@ const Challenges: NextPage = () => {
           accessDetails={tokenAccessDetails}
           asset={asset}
           loading={isLoadingOrder}
-          srcBluredImg={Page3Blur}
         />
       )}
     </ContentLayout>

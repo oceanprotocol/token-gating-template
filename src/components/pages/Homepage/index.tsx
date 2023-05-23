@@ -7,7 +7,6 @@ import cx from 'classnames';
 import styles from './style.module.scss';
 import grafic from '../../../assets/svgexport.svg';
 import { DemoAssetsEnum, DemoAssetIndexEnum } from '../../../shared/const/demoAssetsEnum';
-import bluredGrafic from '../../../assets/bluredGrafic.png';
 import { useAssetOwnershipContext } from '../../../shared/contexts/AssetOwnership.context';
 import LockedWrapper from '../../custom/LockedWrapper';
 import ContentLayout from '../../custom/ContentLayout';
@@ -28,7 +27,6 @@ const Homepage: NextPage = () => {
           accessDetails={tokenAccessDetails}
           asset={asset}
           loading={isLoadingOrder}
-          srcBluredImg={bluredGrafic}
         />
       )}
     </ContentLayout>

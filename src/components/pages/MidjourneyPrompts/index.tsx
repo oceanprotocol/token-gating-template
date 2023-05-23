@@ -19,7 +19,6 @@ import overlooking from '../../../assets/overlooking-the-golden-gate-bridge-a-dr
 import dark from '../../../assets/a-dark-skull-with-gold-ornate-on-it-ax0tyw58 2.png';
 import { useAssetOwnershipContext } from '../../../shared/contexts/AssetOwnership.context';
 import { DemoAssetsEnum, DemoAssetIndexEnum } from '../../../shared/const/demoAssetsEnum';
-import Page2Blur from '../../../assets/page2_blur.png';
 import LockedWrapper from '../../custom/LockedWrapper';
 import ContentLayout from '../../custom/ContentLayout';
 
@@ -91,7 +90,6 @@ const MidjourneyPrompts: NextPage = () => {
           accessDetails={tokenAccessDetails}
           asset={asset}
           loading={isLoadingOrder}
-          srcBluredImg={Page2Blur}
         />
       )}
     </ContentLayout>

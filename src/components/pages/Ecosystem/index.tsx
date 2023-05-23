@@ -8,7 +8,6 @@ import styles from './style.module.scss';
 import { useAssetOwnershipContext } from '../../../shared/contexts/AssetOwnership.context';
 import { DemoAssetIndexEnum, DemoAssetsEnum } from '../../../shared/const/demoAssetsEnum';
 import CardEcosystem from '../../custom/Cards/CardEcosystem';
-import Page4Blur from '../../../assets/page4_blur.png';
 import LockedWrapper from '../../custom/LockedWrapper';
 import useEcosystem from './useEcosystem';
 
@@ -50,7 +49,6 @@ const Ecosystem: NextPage = () => {
           accessDetails={tokenAccessDetails}
           asset={asset}
           loading={isLoadingOrder}
-          srcBluredImg={Page4Blur}
         />
       )}
     </div>
