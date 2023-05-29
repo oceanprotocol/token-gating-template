@@ -35,12 +35,20 @@ export type AssetOwnershipContextType = {
 export const AssetOwnershipContext = React.createContext<AssetOwnershipContextType>({} as AssetOwnershipContextType);
 
 export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): ReactElement => {
-  const { isMetamaskInstalled } = useWalletConnectContext();
+  const {
+    isMetamaskInstalled,
+    currentAddress,
+    isWalletConnected,
+    web3Provider,
+    signer,
+  } = useWalletConnectContext();
   const { order } = useOrder();
 
   const [isLoadingOrder, setIsLoadingOrder] = useState(false);
   const [asset, setAsset] = useState<Asset>();
-  const [tokenAccessDetails, setTokenAccessDetails] = useState<AccessDetails[]>([]);
+  const [tokenAccessDetails, setTokenAccessDetails] = useState<AccessDetails[]>(
+    []
+  );
   const [chainIdWeb3, setChainIdWeb3] = useState<number>();
   const [isWeb3WalletConnected, setIsWeb3WalletConnected] = useState(false);
   const [web3WalletAddress, setWeb3WalletAddress] = useState<string>();
@@ -57,18 +65,21 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
 
   const verifyAccess = useCallback(
     async (assetData: Asset) => {
-      if (!isMetamaskInstalled) {
+      // if (!isMetamaskInstalled) {
+      //   return;
+      // }
+      if (!isWalletConnected) {
         return;
       }
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      if (accounts[0]) {
-        setIsWeb3WalletConnected(true);
-        setWeb3WalletAddress(accounts[0]);
-      }
-      await window.ethereum.request({ method: 'eth_chainId' }).then((result: string) => {
-        setChainIdWeb3(parseInt(result, 16));
-      });
-
+      // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // if (accounts[0]) {
+      //   setIsWeb3WalletConnected(true);
+      //   setWeb3WalletAddress(accounts[0]);
+      // }
+      // await window.ethereum.request({ method: 'eth_chainId' }).then((result: string) => {
+      //   setChainIdWeb3(parseInt(result, 16));
+      // });
+      console.log(currentAddress);
       const serviceAssetData = [];
       for (let index = 0; index < assetData?.services.length; index += 1) {
         serviceAssetData.push(
@@ -76,8 +87,9 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
             assetData.chainId,
             assetData.services[index].datatokenAddress,
             assetData.services[index].timeout,
-            accounts[0],
-          ),
+            // accounts[0],
+            currentAddress
+          )
         );
       }
       const accessData = await Promise.all(serviceAssetData);
@@ -85,35 +97,52 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
       setTokenAccessDetails(accessData);
       return accessData;
     },
-    [isMetamaskInstalled],
+    [isWalletConnected]
   );
 
   const handleOrder = useCallback(
-    async (tokenName: string, serviceIndex: number, AccessDetails: AccessDetails[], dataAsset: Asset | undefined) => {
-      if (!AccessDetails || !dataAsset) {
+    async (
+      tokenName: string,
+      serviceIndex: number,
+      AccessDetails: AccessDetails[],
+      dataAsset: Asset | undefined
+    ) => {
+      if (!AccessDetails || !dataAsset || !web3Provider || !signer) {
         return;
       }
 
       setIsLoadingOrder(true);
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const web3: Web3 = new Web3(window.ethereum);
+      // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // const web3: Web3 = new Web3(window.ethereum);
 
-      const filteredDataToken = asset?.datatokens.find((token: AssetDatatoken) => token.name === tokenName);
+      const filteredDataToken = asset?.datatokens.find(
+        (token: AssetDatatoken) => token.name === tokenName
+      );
       const indexOfService = asset?.services.findIndex(
-        (token: Service) => token.datatokenAddress === filteredDataToken?.address,
+        (token: Service) =>
+          token.datatokenAddress === filteredDataToken?.address
       );
 
       const orderPriceAndFees = await getOrderPriceAndFees(
         dataAsset,
         AccessDetails[serviceIndex],
-        web3,
-        accounts[0],
-        indexOfService,
+        web3Provider,
+        currentAddress,
+        // web3,
+        // accounts[0],
+        indexOfService
       );
-      await order(web3, dataAsset, AccessDetails[serviceIndex], orderPriceAndFees, accounts[0]);
+      await order(
+        web3Provider,
+        dataAsset,
+        AccessDetails[serviceIndex],
+        orderPriceAndFees,
+        currentAddress
+        // accounts[0]
+      );
       setIsLoadingOrder(false);
     },
-    [asset?.datatokens, asset?.services, order],
+    [asset?.datatokens, asset?.services, order]
   );
 
   const hasAccess = useCallback(
