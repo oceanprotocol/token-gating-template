@@ -4,6 +4,7 @@ import { Config, ConfigHelper, ProviderFees, ProviderInstance } from '@oceanprot
 import Decimal from 'decimal.js';
 import { OperationContext, OperationResult, TypedDocumentNode } from 'urql';
 import Web3 from 'web3';
+import { providers } from "ethers";
 import appConfig from '../../../../config';
 import { getFixedBuyPrice } from '../utilities/fixedRateExchange';
 import { tokenPriceQuery } from '../utilities/tokenPriceQuery';
@@ -72,21 +73,21 @@ function getAccessDetailsFromTokenPrice(tokenPrice: TokenPriceQueryToken, timeou
 export async function getOrderPriceAndFees(
   asset: AssetExtended,
   accessDetails: AccessDetails,
-  web3: Web3,
+  web3: providers.Web3Provider,
   accountId?: string,
   serviceIndex?: number,
-  providerFees?: ProviderFees,
+  providerFees?: ProviderFees
 ): Promise<OrderPriceAndFees> {
   const orderPriceAndFee = {
-    price: String(accessDetails.price || '0'),
-    publisherMarketOrderFee: appConfig.oceanApp.publisherMarketOrderFee || '0',
-    publisherMarketFixedSwapFee: '0',
-    consumeMarketOrderFee: appConfig.oceanApp.consumeMarketOrderFee || '0',
-    consumeMarketFixedSwapFee: '0',
+    price: String(accessDetails.price || "0"),
+    publisherMarketOrderFee: appConfig.oceanApp.publisherMarketOrderFee || "0",
+    publisherMarketFixedSwapFee: "0",
+    consumeMarketOrderFee: appConfig.oceanApp.consumeMarketOrderFee || "0",
+    consumeMarketFixedSwapFee: "0",
     providerFee: {
-      providerFeeAmount: '0',
+      providerFeeAmount: "0",
     },
-    opcFee: '0',
+    opcFee: "0",
   } as OrderPriceAndFees;
 
   // fetch provider fee
@@ -97,12 +98,12 @@ export async function getOrderPriceAndFees(
       asset?.services[serviceIndex || 0].id,
       0,
       accountId,
-      asset?.services[serviceIndex || 0].serviceEndpoint,
+      asset?.services[serviceIndex || 0].serviceEndpoint
     ));
   orderPriceAndFee.providerFee = providerFees || initializeData.providerFee;
 
   // fetch price and swap fees
-  if (accessDetails?.type === 'fixed') {
+  if (accessDetails?.type === "fixed") {
     const fixed = await getFixedBuyPrice(accessDetails, asset?.chainId, web3);
     orderPriceAndFee.price = fixed.baseTokenAmount;
     orderPriceAndFee.opcFee = fixed.oceanFeeAmount;
