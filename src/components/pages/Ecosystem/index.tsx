@@ -13,7 +13,13 @@ import useEcosystem from './useEcosystem';
 
 const Ecosystem: NextPage = () => {
   const { t } = useTranslation('common');
-  const { tokenAccessDetails, asset, hasAccess, isLoadingOrder } = useAssetOwnershipContext();
+  const {
+    tokenAccessDetails,
+    asset,
+    hasAccess,
+    isVerifyingAccess,
+    isLoadingOrder,
+  } = useAssetOwnershipContext();
   const { CardContent } = useEcosystem();
 
   return (
@@ -27,7 +33,7 @@ const Ecosystem: NextPage = () => {
           <div
             className={cx(
               styles.container,
-              'd-flex flex-column flex-md-row justify-content-center flex-nowrap flex-md-wrap',
+              'd-flex flex-column flex-md-row justify-content-center flex-nowrap flex-md-wrap'
             )}
           >
             {CardContent.map((content) => {
@@ -48,7 +54,7 @@ const Ecosystem: NextPage = () => {
           serviceIndex={DemoAssetIndexEnum.CHALLENGES}
           accessDetails={tokenAccessDetails}
           asset={asset}
-          loading={isLoadingOrder}
+          loading={isLoadingOrder || isVerifyingAccess}
         />
       )}
     </div>

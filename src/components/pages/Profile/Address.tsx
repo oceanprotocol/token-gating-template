@@ -15,26 +15,30 @@ import useProfile from './useProfile';
 
 const Address: NextPage = () => {
   const { currentAddress } = useWalletConnectContext();
-  const { web3WalletAddress } = useAssetOwnershipContext();
   const { ExplorerLinks } = useProfile();
 
   return (
     <div
       className={cs(
         style.addressContainer,
-        'd-flex flex-column flex-md-row justify-content-center align-items-start align-md-items-center mb-2 mb-md-5',
+        'd-flex flex-column flex-md-row justify-content-center align-items-start align-md-items-center mb-2 mb-md-5'
       )}
     >
       <Image src={WalletPortrait} alt="Wallet Portrait" />
       <div className="d-flex flex-column mt-4 mt-md-0 ms-0 ms-md-3">
         <div className="d-flex flex-row justify-content-start signikaBold30 colorRaisinBlack">
-          {web3WalletAddress ? truncateWalletAddress(web3WalletAddress, 4) : truncateWalletAddress(currentAddress, 4)}
+          {!currentAddress ? '' : truncateWalletAddress(currentAddress, 4)}
           <button type="button" className="clean-empty-button">
             <Image src={CopyBtnImg} alt="copy button address" />
           </button>
         </div>
-        <div className="UrbanistRegular18 mt-2">{web3WalletAddress || currentAddress}</div>
-        <div className={cs(style.linkBox, 'd-flex flex-row justify-content-between flex-wrap')}>
+        <div className="UrbanistRegular18 mt-2">{currentAddress}</div>
+        <div
+          className={cs(
+            style.linkBox,
+            'd-flex flex-row justify-content-between flex-wrap'
+          )}
+        >
           {ExplorerLinks.map((link) => (
             <a
               key={link.id}

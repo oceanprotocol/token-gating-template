@@ -12,7 +12,6 @@ import {
   ProviderInstance,
 } from '@oceanprotocol/lib';
 import { providers } from "ethers";
-import Web3 from "web3";
 import { TransactionReceipt } from "web3-eth";
 import config from "../../../../config";
 import { getOceanConfig } from "../utilities/ocean";
@@ -103,7 +102,6 @@ export default function useOrder() {
         amount,
         false
       );
-      console.log(txApprove);
       if (!txApprove) {
         return;
       }
