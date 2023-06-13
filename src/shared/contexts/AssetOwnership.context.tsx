@@ -11,6 +11,7 @@ import config from '../../../config';
 import useOrder from '../@ocean/hooks/useOrder';
 import { useWalletConnectContext } from './WalletConnect.context';
 import { timeBuffer } from '../utilities/timeBuffer';
+import { useAccount, useProvider, useSigner } from 'wagmi';
 
 export type AssetOwnershipContextType = {
   loadAsset: () => Promise<Asset | undefined>;
@@ -51,6 +52,7 @@ export const AssetOwnershipProvider = ({
     signer,
   } = useWalletConnectContext();
   const { order } = useOrder();
+  const { data: signerWagmi } = useSigner();
 
   const [isVerifyingAccess, setIsVerifyingAccess] = useState(false);
   const [isLoadingOrder, setIsLoadingOrder] = useState(false);
@@ -65,15 +67,18 @@ export const AssetOwnershipProvider = ({
     return getAsset(config.did, newCancelToken());
   }, [newCancelToken]);
 
+  const { address: walletAddress } = useAccount();
+
   const verifyAccess = useCallback(
     async (assetData: Asset | undefined) => {
       if (!assetData) return;
-      if (!isMetamaskInstalled || !isWalletConnected) {
-        return;
-      }
-      if (!currentAddress && currentAddress.length === 0) {
-        return;
-      }
+      // if (!isMetamaskInstalled || !isWalletConnected) {
+      //   return;
+      // }
+      // if (!currentAddress && currentAddress.length === 0) {
+      //   return;
+      // }
+      if (!walletAddress) return;
       setIsVerifyingAccess(true);
       const serviceAssetData = [];
       for (let index = 0; index < assetData?.services.length; index += 1) {
@@ -82,7 +87,7 @@ export const AssetOwnershipProvider = ({
             assetData.chainId,
             assetData.services[index].datatokenAddress,
             assetData.services[index].timeout,
-            currentAddress
+            walletAddress
           )
         );
       }
@@ -92,7 +97,7 @@ export const AssetOwnershipProvider = ({
       setIsVerifyingAccess(false);
       return accessData;
     },
-    [currentAddress]
+    [walletAddress]
   );
 
   const handleOrder = useCallback(
@@ -102,7 +107,7 @@ export const AssetOwnershipProvider = ({
       AccessDetails: AccessDetails[],
       dataAsset: Asset | undefined
     ) => {
-      if (!AccessDetails || !dataAsset || !web3Provider || !signer) {
+      if (!AccessDetails || !dataAsset || !signerWagmi || !walletAddress) {
         return;
       }
       setIsLoadingOrder(true);
@@ -118,16 +123,16 @@ export const AssetOwnershipProvider = ({
       const orderPriceAndFees = await getOrderPriceAndFees(
         dataAsset,
         AccessDetails[serviceIndex],
-        web3Provider,
-        currentAddress,
+        signerWagmi,
+        walletAddress,
         indexOfService
       );
       await order(
-        web3Provider,
+        signerWagmi,
         dataAsset,
         AccessDetails[serviceIndex],
         orderPriceAndFees,
-        currentAddress
+        walletAddress.toString()
       ).then(timeBuffer(10000));
 
       setIsLoadingOrder(false);

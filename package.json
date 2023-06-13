@@ -10,8 +10,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@coingecko/cryptoformat": "^0.5.4",
     "@next/font": "13.1.6",
     "@oceanprotocol/lib": "3.0.0-next.5",
+    "@tippyjs/react": "^4.2.6",
     "@types/axios": "^0.14.0",
     "@types/node": "^18.15.5",
     "@types/numeral": "^2.0.2",
@@ -29,6 +31,7 @@
     "eslint-config-next": "13.1.6",
     "ethers": "^5.6.5",
     "i18next": "^22.4.13",
+    "myetherwallet-blockies": "^0.1.1",
     "next": "13.1.6",
     "next-i18next": "13.2.2",
     "next-runtime-dotenv": "^1.5.1",
@@ -37,10 +40,11 @@
     "react-bootstrap": "^2.7.2",
     "react-dom": "18.2.0",
     "react-i18next": "12.2.0",
+    "react-spring": "^9.7.1",
     "sharp": "^0.31.3",
     "typescript": "4.9.5",
     "urql": "^4.0.0",
-    "wagmi": "0.12.12",
+    "wagmi": "^0.12.12",
     "web3": "^1.8.1",
     "web3modal": "^1.9.10"
   },
