@@ -6,20 +6,20 @@ import styles from './index.module.css'
 const cx = classNames.bind(styles)
 
 export interface ButtonProps {
-  children: ReactNode
-  className?: string
-  href?: string
-  onClick?: (e: FormEvent) => void
-  disabled?: boolean
-  to?: string
-  name?: string
-  size?: 'small'
-  style?: 'primary' | 'ghost' | 'text'
-  type?: 'submit'
-  download?: boolean
-  target?: string
-  rel?: string
-  title?: string
+  children: ReactNode;
+  className?: string | number | symbol | any;
+  href?: string;
+  onClick?: (e: FormEvent) => void;
+  disabled?: boolean;
+  to?: string;
+  name?: string;
+  size?: 'small';
+  style?: 'primary' | 'ghost' | 'text';
+  type?: 'submit';
+  download?: boolean;
+  target?: string;
+  rel?: string;
+  title?: string;
 }
 
 export default function Button({
