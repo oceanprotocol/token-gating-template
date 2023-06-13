@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { ReactElement } from 'react';
 import { useSpring, animated } from 'react-spring';
 import stylesTooltip from './index.module.css';

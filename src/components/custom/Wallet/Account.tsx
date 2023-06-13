@@ -11,7 +11,6 @@ import {
   useProvider,
 } from 'wagmi';
 import { useModal } from 'connectkit';
-import Avatar from '../Avatar';
 import Image from 'next/image';
 import { accountTruncate } from '../../../shared/@ocean/utilities/wallet';
 
