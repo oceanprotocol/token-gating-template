@@ -1,7 +1,7 @@
 import React, { FormEvent, ReactElement } from 'react';
 import Caret from '../../../assets/caret.svg';
 // import Loader from '@shared/atoms/Loader'
-import styles from './Account.module.css';
+import styles from './Account.module.scss';
 import {
   useAccount,
   useEnsName,

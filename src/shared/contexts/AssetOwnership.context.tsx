@@ -72,12 +72,6 @@ export const AssetOwnershipProvider = ({
   const verifyAccess = useCallback(
     async (assetData: Asset | undefined) => {
       if (!assetData) return;
-      // if (!isMetamaskInstalled || !isWalletConnected) {
-      //   return;
-      // }
-      // if (!currentAddress && currentAddress.length === 0) {
-      //   return;
-      // }
       if (!walletAddress) return;
       setIsVerifyingAccess(true);
       const serviceAssetData = [];

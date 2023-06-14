@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { ReactElement } from 'react';
 import { useSpring, animated } from 'react-spring';
-import stylesTooltip from './index.module.css';
+import stylesTooltip from './index.module.scss';
 import Info from '../../../assets/info.svg';
 import Tippy, { TippyProps } from '@tippyjs/react/headless';
 

@@ -1,11 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { formatCurrency } from '@coingecko/cryptoformat';
-import { useNetwork, useDisconnect, useAccount, useConnect } from 'wagmi';
+import { useDisconnect, useAccount, useConnect } from 'wagmi';
 import { useModal } from 'connectkit';
-import styles from './Details.module.css';
+import styles from './Details.module.scss';
 import Button from '../Button';
-import { getOceanConfig } from '../../../shared/@ocean/utilities/ocean';
 import useBalance from '../../../shared/@ocean/hooks/useBalance';
 import MetamaskLogo from '../../../assets/MetaMask_Fox.svg';
 import WalletConnectLogo from '../../../assets/walletconnect-seeklogo.com.svg';

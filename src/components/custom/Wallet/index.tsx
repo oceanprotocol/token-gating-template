@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import Account from './Account';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import { useAccount } from 'wagmi';
 import Tooltip from '../Tooltip';
 import Details from './Details';
