@@ -25,7 +25,7 @@ type HeaderPropsType = {
 };
 
 const {
-  routes: { profile },
+  routes: { homepage, profile },
 } = config;
 
 const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
@@ -67,11 +67,13 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
                 />
               </button>
               <div className="d-flex flex-row d-md-none justify-content-between align-items-center">
-                <Image
-                  src={logoHeader}
-                  alt="navbar logo"
-                  className={cx(styles.mobileHeaderLogo, 'ms-2')}
-                />
+                <Link href={homepage}>
+                  <Image
+                    src={logoHeader}
+                    alt="navbar logo"
+                    className={cx(styles.mobileHeaderLogo, 'ms-2')}
+                  />
+                </Link>
                 <div
                   className={cx(
                     styles.burgerButton,
@@ -90,10 +92,22 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
               <ul className="navbar-nav">
                 <Wallet />
                 <WalletAuth openModal={openModal} />
-                <Link className="nav-item mx-3 d-none d-md-flex" href={profile}>
+                <Link
+                  className={cx(
+                    styles.navLink,
+                    'nav-item mx-3 d-none d-md-flex'
+                  )}
+                  href={profile}
+                >
                   <Image src={personLogo} alt="person logo" />
                 </Link>
-                <Link className="nav-item mx-3 d-none d-md-flex" href="/">
+                <Link
+                  className={cx(
+                    styles.navLink,
+                    'nav-item mx-3 d-none d-md-flex'
+                  )}
+                  href="/"
+                >
                   <Image src={walletLogo} alt="wallet logo" />
                 </Link>
               </ul>
