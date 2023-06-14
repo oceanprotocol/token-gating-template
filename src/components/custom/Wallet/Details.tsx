@@ -10,6 +10,8 @@ import useBalance from '../../../shared/@ocean/hooks/useBalance';
 import MetamaskLogo from '../../../assets/MetaMask_Fox.svg';
 import WalletConnectLogo from '../../../assets/walletconnect-seeklogo.com.svg';
 import CoinbaseLogo from '../../../assets/coinbase-wallet-logo.svg';
+import { formatNumber } from '../../../shared/utilities/format';
+import BigNumber from 'bignumber.js';
 
 export default function Details(): ReactElement {
   const { connector: activeConnector } = useAccount();
@@ -18,20 +20,14 @@ export default function Details(): ReactElement {
   const { disconnect } = useDisconnect();
   const { balance } = useBalance();
 
-  const [mainCurrency, setMainCurrency] = useState<string>();
-
   return (
     <div className={styles.details}>
       <ul>
         {Object.entries(balance).map(([key, value]) => (
           <li className={styles.balance} key={key}>
-            <span className={styles.symbol}>
-              {key === 'eth' ? mainCurrency : key.toUpperCase()}
-            </span>
+            <span className={styles.symbol}>{key.toUpperCase()}</span>
             <span className={styles.value}>
-              {formatCurrency(Number(value), '', 'en', false, {
-                significantFigures: 4,
-              })}
+              {formatNumber(new BigNumber(value), 5)}
             </span>
           </li>
         ))}

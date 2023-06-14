@@ -6,6 +6,8 @@ import {
   useProvider,
   useBalance as useBalanceWagmi,
 } from 'wagmi';
+import { fetchBalance } from '@wagmi/core';
+import config from '../../../../config';
 
 interface BalanceProviderValue {
   balance: UserBalance;
@@ -16,6 +18,10 @@ function useBalance(): BalanceProviderValue {
   const { data: balanceNativeToken } = useBalanceWagmi({ address });
   const web3provider = useProvider();
   const { chain } = useNetwork();
+
+  const {
+    oceanNetwork: { contract: oceanContractAddress },
+  } = config;
 
   const [balance, setBalance] = useState<UserBalance>({
     eth: '0',
@@ -30,10 +36,18 @@ function useBalance(): BalanceProviderValue {
       return;
 
     try {
+      const oceanBalance = await fetchBalance({
+        address,
+        token: `0x${oceanContractAddress.slice(2)}`,
+      });
+      const oceanBalanceFormatted = oceanBalance?.formatted;
+      const oceanKey = oceanBalance?.symbol;
+
       const userBalance = balanceNativeToken?.formatted;
-      const key = balanceNativeToken?.symbol.toLowerCase();
+      const key = balanceNativeToken?.symbol;
       const newBalance: UserBalance = { [key]: userBalance };
 
+      newBalance[oceanKey] = oceanBalanceFormatted;
       setBalance(newBalance);
       LoggerInstance.log('[useBalance] Balance: ', newBalance);
     } catch (error) {
