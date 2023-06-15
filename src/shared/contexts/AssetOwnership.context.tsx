@@ -9,9 +9,8 @@ import {
 } from '../@ocean/hooks/useGetAccessDetails';
 import config from '../../../config';
 import useOrder from '../@ocean/hooks/useOrder';
-import { useWalletConnectContext } from './WalletConnect.context';
 import { timeBuffer } from '../utilities/timeBuffer';
-import { useAccount, useProvider, useSigner } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 
 export type AssetOwnershipContextType = {
   loadAsset: () => Promise<Asset | undefined>;
@@ -44,13 +43,6 @@ export const AssetOwnershipProvider = ({
 }: {
   children: ReactNode;
 }): ReactElement => {
-  const {
-    currentAddress,
-    isWalletConnected,
-    isMetamaskInstalled,
-    web3Provider,
-    signer,
-  } = useWalletConnectContext();
   const { order } = useOrder();
   const { data: signerWagmi } = useSigner();
 
