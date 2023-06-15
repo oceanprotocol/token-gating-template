@@ -11,6 +11,9 @@ import config from '../../../config';
 import useOrder from '../@ocean/hooks/useOrder';
 import { timeBuffer } from '../utilities/timeBuffer';
 import { useAccount, useSigner } from 'wagmi';
+import { fetchBalance } from '@wagmi/core';
+import useBalance from '../@ocean/hooks/useBalance';
+import BigNumber from 'bignumber.js';
 
 export type AssetOwnershipContextType = {
   loadAsset: () => Promise<Asset | undefined>;
@@ -31,6 +34,8 @@ export type AssetOwnershipContextType = {
   totalSpentOnAssets: number;
   totalUnlockedAssets: number;
   unlockedAssetsArray: AccessDetails[];
+  hasSufficientFunds: (servicePrice: string) => Promise<void>;
+  hasFunds: boolean;
 };
 
 export const AssetOwnershipContext =
@@ -45,6 +50,8 @@ export const AssetOwnershipProvider = ({
 }): ReactElement => {
   const { order } = useOrder();
   const { data: signerWagmi } = useSigner();
+  const { address: walletAddress } = useAccount();
+  const { balanceNativeToken } = useBalance();
 
   const [isVerifyingAccess, setIsVerifyingAccess] = useState(false);
   const [isLoadingOrder, setIsLoadingOrder] = useState(false);
@@ -52,14 +59,13 @@ export const AssetOwnershipProvider = ({
   const [tokenAccessDetails, setTokenAccessDetails] = useState<AccessDetails[]>(
     []
   );
+  const [hasFunds, setHasFunds] = useState(false);
 
   const newCancelToken = useCancelToken();
 
   const loadAsset = useCallback(() => {
     return getAsset(config.did, newCancelToken());
   }, [newCancelToken]);
-
-  const { address: walletAddress } = useAccount();
 
   const verifyAccess = useCallback(
     async (assetData: Asset | undefined) => {
@@ -143,6 +149,36 @@ export const AssetOwnershipProvider = ({
     [tokenAccessDetails]
   );
 
+  const hasSufficientFunds = useCallback(
+    async (servicePrice: string) => {
+      if (!walletAddress) return setHasFunds(false);
+      const oceanBalance = await fetchBalance({
+        address: walletAddress,
+        token: `0x${config.oceanNetwork.contract.slice(2)}`,
+      });
+      const oceanBalanceFormatted = oceanBalance?.formatted;
+      const baseTokenBalanceFormatted = balanceNativeToken?.formatted;
+
+      if (!baseTokenBalanceFormatted) {
+        setHasFunds(false);
+        return;
+      }
+
+      const nativeTokensSufficient =
+        new BigNumber(baseTokenBalanceFormatted).toNumber() > 0.01;
+      const oceanTokensSufficient =
+        new BigNumber(oceanBalanceFormatted).toNumber() >
+        new BigNumber(servicePrice).toNumber();
+
+      if (nativeTokensSufficient && oceanTokensSufficient) {
+        setHasFunds(true);
+      } else {
+        setHasFunds(false);
+      }
+    },
+    [walletAddress]
+  );
+
   const unlockedAssetsArray = useMemo(() => {
     return tokenAccessDetails.filter(
       (item) => item.validOrderTx && item.validOrderTx.length > 0
@@ -194,6 +230,8 @@ export const AssetOwnershipProvider = ({
       totalSpentOnAssets,
       totalUnlockedAssets,
       unlockedAssetsArray,
+      hasSufficientFunds,
+      hasFunds,
     }),
     [
       loadAsset,
@@ -208,6 +246,8 @@ export const AssetOwnershipProvider = ({
       totalSpentOnAssets,
       totalUnlockedAssets,
       unlockedAssetsArray,
+      hasSufficientFunds,
+      hasFunds,
     ]
   );
 

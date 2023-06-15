@@ -11,6 +11,7 @@ import config from '../../../../config';
 
 interface BalanceProviderValue {
   balance: UserBalance;
+  balanceNativeToken: FetchBalanceResult | undefined;
 }
 
 function useBalance(): BalanceProviderValue {
@@ -59,7 +60,7 @@ function useBalance(): BalanceProviderValue {
     getUserBalance();
   }, [getUserBalance]);
 
-  return { balance };
+  return { balance, balanceNativeToken };
 }
 
 export default useBalance;
