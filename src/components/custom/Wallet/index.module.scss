@@ -2,3 +2,9 @@
   display: flex;
   align-self: stretch;
 }
+
+@media only screen and (max-width: 500px) {
+  .wallet {
+    width: 100%;
+  }
+}

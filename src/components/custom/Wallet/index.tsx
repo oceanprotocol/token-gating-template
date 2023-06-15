@@ -5,17 +5,21 @@ import { useAccount } from 'wagmi';
 import Tooltip from '../Tooltip';
 import Details from './Details';
 
-export default function Wallet(): ReactElement {
+type WalletPropType = {
+  mobile?: boolean;
+};
+
+export default function Wallet({ mobile }: WalletPropType): ReactElement {
   const { address: accountId } = useAccount();
 
   return (
-    <div className={styles.wallet}>
+    <div className={(styles.wallet, 'w-100 mt-2 mt-md-0')}>
       <Tooltip
         content={<Details />}
         trigger="click focus"
         disabled={!accountId}
       >
-        <Account />
+        <Account mobile={mobile} />
       </Tooltip>
     </div>
   );

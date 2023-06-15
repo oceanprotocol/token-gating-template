@@ -32,9 +32,6 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
   const { t } = useTranslation(['common']);
   const {
     NavigationLinks,
-    showModal,
-    openModal,
-    closeModal,
     isBurgerMenuOpen,
     handleBurgerMenuClick,
     handleBurgerClose,
@@ -42,7 +39,6 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
 
   return (
     <>
-      <ConnectWalletModal showModal={showModal} onClose={closeModal} />
       <div>
         <nav
           className={cx(
@@ -91,7 +87,6 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
             >
               <ul className="navbar-nav">
                 <Wallet />
-                <WalletAuth openModal={openModal} />
                 <Link
                   className={cx(
                     styles.navLink,
@@ -118,12 +113,11 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
               className={cx(
                 styles.mobileHeaderContainer,
                 styles.bgHeader,
-                'd-flex d-md-none'
+                'd-flex d-md-none px-0'
               )}
             >
               <div
                 className={cx(
-                  styles.mobileHeaderLinks,
                   'd-flex d-md-none flex-column justify-content-start align-items-center w-100 mb-5'
                 )}
               >
@@ -151,6 +145,7 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
                     </React.Fragment>
                   );
                 })}
+                <Wallet mobile />
               </div>
             </div>
           )}

@@ -2,25 +2,21 @@ import { useCallback, useMemo, useState } from 'react';
 
 import config from '../../../../../config';
 import profileLogo from '../../../../assets/person-circle (1).svg';
-import walletMobile from '../../../../assets/walletMobile.svg';
-import metamaskMobile from '../../../../assets/metamaskMobile.svg';
 import { DemoAssetIndexEnum } from '../../../../shared/const/demoAssetsEnum';
 
 const {
-  routes: { homepage, chatgptPrompts, midjourneyPrompts, challanges, ecosystem, profile },
+  routes: {
+    homepage,
+    chatgptPrompts,
+    midjourneyPrompts,
+    challanges,
+    ecosystem,
+    profile,
+  },
 } = config;
 
 export default function useHeader() {
-  const [showModal, setShowModal] = useState(false);
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
-
-  const openModal = useCallback(() => {
-    setShowModal(true);
-  }, []);
-
-  const closeModal = useCallback(() => {
-    setShowModal(false);
-  }, []);
 
   const handleBurgerMenuClick = () => {
     setIsBurgerMenuOpen(!isBurgerMenuOpen);
@@ -68,27 +64,12 @@ export default function useHeader() {
         image: profileLogo,
         title: 'My Profile',
       },
-      {
-        id: 7,
-        href: 'Connect wallet',
-        image: metamaskMobile,
-        title: 'Connect wallet',
-      },
-      {
-        id: 8,
-        href: 'Currency & network settings',
-        image: walletMobile,
-        title: 'Currency & network settings',
-      },
     ],
-    [],
+    []
   );
 
   return {
     NavigationLinks,
-    showModal,
-    openModal,
-    closeModal,
     isBurgerMenuOpen,
     handleBurgerMenuClick,
     handleBurgerClose,

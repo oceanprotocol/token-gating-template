@@ -21,29 +21,7 @@
   color: var(--font-color-text);
 }
 
-.button:hover,
-.button:focus {
-  transform: none;
-  outline: 0;
-}
-
-.button.initial {
-  color: var(--white);
-}
-
-.button.initial span {
-  display: none;
-}
-
-@media screen and (min-width: 42rem) {
-  .button.initial span {
-    display: inline;
-    margin-left: 0.2rem;
-  }
-}
-
 .address {
-  display: none;
   text-transform: none;
   border-right: 1px solid var(--border-color);
   padding-right: calc(var(--spacer) / 3);
@@ -54,7 +32,7 @@
   .address {
     display: inline-block;
   }
-
+  
   .blockies {
     margin-right: calc(var(--spacer) / 6);
   }
@@ -68,4 +46,35 @@
 
 .caret {
   composes: caret from './Menu.module.scss';
+}
+
+
+@media only screen and (max-width: 500px) {
+  .button.initial span {
+    display: inline;
+    margin-left: 0.2rem;
+  }
+
+  .button {
+    width: 100%;
+    padding: 10px 30px;
+    min-height: 40px;
+    background: #eaeaea;
+    color: black;
+    border-radius: 5px;
+  }
+
+  .address {
+    color: #212529;
+    font-family: "Urbanist-Regular";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .caret {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
 }

@@ -1,11 +1,16 @@
 .tooltip {
   display: inline-block;
 }
+@media only screen and (max-width: 500px) { 
+  .tooltip {
+   width: 100%;
+  }
+}
 
 .content {
   composes: box from '../Box.module.scss';
   padding: calc(var(--spacer) / 4);
-  max-width: 25rem;
+  // max-width: 25rem;
   font-size: var(--font-size-small);
 }
 

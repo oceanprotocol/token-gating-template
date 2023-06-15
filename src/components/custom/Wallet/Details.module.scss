@@ -4,11 +4,12 @@
   min-width: 17rem;
 }
 
-@media (min-width: 40rem) {
+@media only screen and (max-width: 500px) {
   .details {
     padding: calc(var(--spacer) / 2);
     margin-right: calc(var(--spacer) / 3);
     min-width: 20rem;
+    width: 100%;
   }
 }
 
