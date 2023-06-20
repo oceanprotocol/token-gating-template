@@ -23,15 +23,31 @@ import LockedWrapper from '../../custom/LockedWrapper';
 import ContentLayout from '../../custom/ContentLayout';
 
 const MidjourneyPrompts: NextPage = () => {
-  const { tokenAccessDetails, isLoadingOrder, asset, hasAccess } = useAssetOwnershipContext();
+  const {
+    tokenAccessDetails,
+    isLoadingOrder,
+    isVerifyingAccess,
+    asset,
+    hasAccess,
+  } = useAssetOwnershipContext();
 
   return (
     <ContentLayout title="titlePage2" description="textPage2">
       {hasAccess(DemoAssetIndexEnum.MIDJOURNEY_PROMPTS) ? (
         <>
           <div className="d-flex flex-row justify-content-center mt-4">
-            <Image src={shark} alt="shark image" className={cx(styles.imgSmall, 'mx-1 mx-md-3')} priority />
-            <Image src={mountain} alt="mountain image" className={cx(styles.imgSmall, 'mx-1 mx-md-3')} priority />
+            <Image
+              src={shark}
+              alt="shark image"
+              className={cx(styles.imgSmall, 'mx-1 mx-md-3')}
+              priority
+            />
+            <Image
+              src={mountain}
+              alt="mountain image"
+              className={cx(styles.imgSmall, 'mx-1 mx-md-3')}
+              priority
+            />
             <Image
               src={house}
               width={190}
@@ -40,7 +56,12 @@ const MidjourneyPrompts: NextPage = () => {
               className={cx(styles.imgSmall, 'mx-3 d-none d-md-flex')}
               priority
             />
-            <Image src={boat} alt="boat image" className={cx(styles.imgSmall, 'mx-3 d-none d-md-flex')} priority />
+            <Image
+              src={boat}
+              alt="boat image"
+              className={cx(styles.imgSmall, 'mx-3 d-none d-md-flex')}
+              priority
+            />
             <Image
               src={pirates}
               width={190}
@@ -51,12 +72,32 @@ const MidjourneyPrompts: NextPage = () => {
             />
           </div>
           <div className="d-flex flex-row justify-content-center my-1 my-md-4">
-            <Image src={beehive} alt="beehive image" className={cx(styles.img, 'mx-3')} priority />
-            <Image src={liquid} className={cx(styles.img, 'mx-3 d-none d-md-flex')} alt="liquid image" priority />
+            <Image
+              src={beehive}
+              alt="beehive image"
+              className={cx(styles.img, 'mx-3')}
+              priority
+            />
+            <Image
+              src={liquid}
+              className={cx(styles.img, 'mx-3 d-none d-md-flex')}
+              alt="liquid image"
+              priority
+            />
           </div>
           <div className="d-flex flex-row justify-content-center mb-4">
-            <Image src={pirat} alt="shark image" className={cx(styles.imgSmall, 'mx-1 mx-md-3')} priority />
-            <Image src={shark2} alt="mountain image" className={cx(styles.imgSmall, 'mx-1 mx-md-3')} priority />
+            <Image
+              src={pirat}
+              alt="shark image"
+              className={cx(styles.imgSmall, 'mx-1 mx-md-3')}
+              priority
+            />
+            <Image
+              src={shark2}
+              alt="mountain image"
+              className={cx(styles.imgSmall, 'mx-1 mx-md-3')}
+              priority
+            />
             <Image
               src={sunset}
               width={190}
@@ -89,7 +130,7 @@ const MidjourneyPrompts: NextPage = () => {
           serviceIndex={DemoAssetIndexEnum.MIDJOURNEY_PROMPTS}
           accessDetails={tokenAccessDetails}
           asset={asset}
-          loading={isLoadingOrder}
+          loading={isLoadingOrder || isVerifyingAccess}
         />
       )}
     </ContentLayout>

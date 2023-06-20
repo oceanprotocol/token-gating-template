@@ -35,5 +35,7 @@
     "midjourneyPrompts": "midjourney-prompts",
     "challanges": "challanges",
     "ecosystem": "ecosystem"
-  }
+  },
+  "walletNotConnected": "Please connect your wallet to see the details",
+  "copied": "Copied!"
 }

@@ -12,7 +12,13 @@ import LockedWrapper from '../../custom/LockedWrapper';
 import ContentLayout from '../../custom/ContentLayout';
 
 const Homepage: NextPage = () => {
-  const { tokenAccessDetails, isLoadingOrder, asset, hasAccess } = useAssetOwnershipContext();
+  const {
+    tokenAccessDetails,
+    isLoadingOrder,
+    isVerifyingAccess,
+    asset,
+    hasAccess,
+  } = useAssetOwnershipContext();
 
   return (
     <ContentLayout title="titleHomepage" description="textHomepage" isHomepage>
@@ -26,7 +32,7 @@ const Homepage: NextPage = () => {
           serviceIndex={DemoAssetIndexEnum.HOMEPAGE}
           accessDetails={tokenAccessDetails}
           asset={asset}
-          loading={isLoadingOrder}
+          loading={isLoadingOrder || isVerifyingAccess}
         />
       )}
     </ContentLayout>

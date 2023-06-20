@@ -1,13 +1,19 @@
 import React, { ReactElement, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Asset, AssetDatatoken, Service } from '@oceanprotocol/lib';
 
-import Web3 from 'web3';
 import { useCancelToken } from '../@ocean/hooks/useCancelToken';
 import { getAsset } from '../@ocean/hooks/useGetAsset';
-import { getAccessDetails, getOrderPriceAndFees } from '../@ocean/hooks/useGetAccessDetails';
+import {
+  getAccessDetails,
+  getOrderPriceAndFees,
+} from '../@ocean/hooks/useGetAccessDetails';
 import config from '../../../config';
 import useOrder from '../@ocean/hooks/useOrder';
-import { useWalletConnectContext } from './WalletConnect.context';
+import { timeBuffer } from '../utilities/timeBuffer';
+import { useAccount, useSigner } from 'wagmi';
+import { fetchBalance } from '@wagmi/core';
+import useBalance from '../@ocean/hooks/useBalance';
+import BigNumber from 'bignumber.js';
 
 export type AssetOwnershipContextType = {
   loadAsset: () => Promise<Asset | undefined>;
@@ -18,36 +24,42 @@ export type AssetOwnershipContextType = {
     tokenName: string,
     serviceIndex: number,
     AccessDetails: AccessDetails[],
-    dataAsset: Asset | undefined,
+    dataAsset: Asset | undefined
   ) => Promise<void>;
+  isVerifyingAccess: boolean;
   isLoadingOrder: boolean;
   setAsset: React.Dispatch<React.SetStateAction<Asset | undefined>>;
   hasAccess: (index: number) => boolean;
   getServicePrice: (index: number) => string;
-  isAcceptedWeb3ChainId: boolean;
-  isWeb3WalletConnected: boolean;
-  web3WalletAddress: string | undefined;
   totalSpentOnAssets: number;
   totalUnlockedAssets: number;
   unlockedAssetsArray: AccessDetails[];
+  hasSufficientFunds: (servicePrice: string) => Promise<void>;
+  hasFunds: boolean;
 };
 
-export const AssetOwnershipContext = React.createContext<AssetOwnershipContextType>({} as AssetOwnershipContextType);
+export const AssetOwnershipContext =
+  React.createContext<AssetOwnershipContextType>(
+    {} as AssetOwnershipContextType
+  );
 
-export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): ReactElement => {
-  const { isMetamaskInstalled } = useWalletConnectContext();
+export const AssetOwnershipProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
   const { order } = useOrder();
+  const { data: signerWagmi } = useSigner();
+  const { address: walletAddress } = useAccount();
+  const { balanceNativeToken } = useBalance();
 
+  const [isVerifyingAccess, setIsVerifyingAccess] = useState(false);
   const [isLoadingOrder, setIsLoadingOrder] = useState(false);
   const [asset, setAsset] = useState<Asset>();
-  const [tokenAccessDetails, setTokenAccessDetails] = useState<AccessDetails[]>([]);
-  const [chainIdWeb3, setChainIdWeb3] = useState<number>();
-  const [isWeb3WalletConnected, setIsWeb3WalletConnected] = useState(false);
-  const [web3WalletAddress, setWeb3WalletAddress] = useState<string>();
-
-  const isAcceptedWeb3ChainId = useMemo(() => {
-    return chainIdWeb3 === config.network.acceptedChainId;
-  }, [chainIdWeb3]);
+  const [tokenAccessDetails, setTokenAccessDetails] = useState<AccessDetails[]>(
+    []
+  );
+  const [hasFunds, setHasFunds] = useState(false);
 
   const newCancelToken = useCancelToken();
 
@@ -56,19 +68,10 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
   }, [newCancelToken]);
 
   const verifyAccess = useCallback(
-    async (assetData: Asset) => {
-      if (!isMetamaskInstalled) {
-        return;
-      }
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      if (accounts[0]) {
-        setIsWeb3WalletConnected(true);
-        setWeb3WalletAddress(accounts[0]);
-      }
-      await window.ethereum.request({ method: 'eth_chainId' }).then((result: string) => {
-        setChainIdWeb3(parseInt(result, 16));
-      });
-
+    async (assetData: Asset | undefined) => {
+      if (!assetData) return;
+      if (!walletAddress) return;
+      setIsVerifyingAccess(true);
       const serviceAssetData = [];
       for (let index = 0; index < assetData?.services.length; index += 1) {
         serviceAssetData.push(
@@ -76,65 +79,110 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
             assetData.chainId,
             assetData.services[index].datatokenAddress,
             assetData.services[index].timeout,
-            accounts[0],
-          ),
+            walletAddress
+          )
         );
       }
       const accessData = await Promise.all(serviceAssetData);
 
       setTokenAccessDetails(accessData);
+      setIsVerifyingAccess(false);
       return accessData;
     },
-    [isMetamaskInstalled],
+    [walletAddress]
   );
 
   const handleOrder = useCallback(
-    async (tokenName: string, serviceIndex: number, AccessDetails: AccessDetails[], dataAsset: Asset | undefined) => {
-      if (!AccessDetails || !dataAsset) {
+    async (
+      tokenName: string,
+      serviceIndex: number,
+      AccessDetails: AccessDetails[],
+      dataAsset: Asset | undefined
+    ) => {
+      if (!AccessDetails || !dataAsset || !signerWagmi || !walletAddress) {
         return;
       }
-
       setIsLoadingOrder(true);
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const web3: Web3 = new Web3(window.ethereum);
 
-      const filteredDataToken = asset?.datatokens.find((token: AssetDatatoken) => token.name === tokenName);
+      const filteredDataToken = asset?.datatokens.find(
+        (token: AssetDatatoken) => token.name === tokenName
+      );
       const indexOfService = asset?.services.findIndex(
-        (token: Service) => token.datatokenAddress === filteredDataToken?.address,
+        (token: Service) =>
+          token.datatokenAddress === filteredDataToken?.address
       );
 
       const orderPriceAndFees = await getOrderPriceAndFees(
         dataAsset,
         AccessDetails[serviceIndex],
-        web3,
-        accounts[0],
-        indexOfService,
+        signerWagmi,
+        walletAddress,
+        indexOfService
       );
-      await order(web3, dataAsset, AccessDetails[serviceIndex], orderPriceAndFees, accounts[0]);
+      await order(
+        signerWagmi,
+        dataAsset,
+        AccessDetails[serviceIndex],
+        orderPriceAndFees,
+        walletAddress.toString()
+      ).then(timeBuffer(10000));
+
       setIsLoadingOrder(false);
     },
-    [asset?.datatokens, asset?.services, order],
+    [asset?.datatokens, asset?.services, order]
   );
 
   const hasAccess = useCallback(
     (index: number): boolean => {
-      if (!(tokenAccessDetails && tokenAccessDetails[index]?.validOrderTx)) {
+      if (!tokenAccessDetails[index]?.validOrderTx) {
         return false;
       }
       return true;
     },
-    [tokenAccessDetails],
+    [tokenAccessDetails]
   );
 
   const getServicePrice = useCallback(
     (index: number) => {
       return tokenAccessDetails && tokenAccessDetails[index]?.price;
     },
-    [tokenAccessDetails],
+    [tokenAccessDetails]
+  );
+
+  const hasSufficientFunds = useCallback(
+    async (servicePrice: string) => {
+      if (!walletAddress) return setHasFunds(false);
+      const oceanBalance = await fetchBalance({
+        address: walletAddress,
+        token: `0x${config.oceanNetwork.contract.slice(2)}`,
+      });
+      const oceanBalanceFormatted = oceanBalance?.formatted;
+      const baseTokenBalanceFormatted = balanceNativeToken?.formatted;
+
+      if (!baseTokenBalanceFormatted) {
+        setHasFunds(false);
+        return;
+      }
+
+      const nativeTokensSufficient =
+        new BigNumber(baseTokenBalanceFormatted).toNumber() > 0.01;
+      const oceanTokensSufficient =
+        new BigNumber(oceanBalanceFormatted).toNumber() >
+        new BigNumber(servicePrice).toNumber();
+
+      if (nativeTokensSufficient && oceanTokensSufficient) {
+        setHasFunds(true);
+      } else {
+        setHasFunds(false);
+      }
+    },
+    [walletAddress]
   );
 
   const unlockedAssetsArray = useMemo(() => {
-    return tokenAccessDetails.filter((item) => item.validOrderTx && item.validOrderTx.length > 0);
+    return tokenAccessDetails.filter(
+      (item) => item.validOrderTx && item.validOrderTx.length > 0
+    );
   }, [tokenAccessDetails]);
 
   const totalUnlockedAssets = useMemo(() => {
@@ -174,16 +222,16 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
       asset,
       tokenAccessDetails,
       handleOrder,
+      isVerifyingAccess,
       isLoadingOrder,
       setAsset,
       hasAccess,
       getServicePrice,
-      isAcceptedWeb3ChainId,
-      isWeb3WalletConnected,
-      web3WalletAddress,
       totalSpentOnAssets,
       totalUnlockedAssets,
       unlockedAssetsArray,
+      hasSufficientFunds,
+      hasFunds,
     }),
     [
       loadAsset,
@@ -191,19 +239,23 @@ export const AssetOwnershipProvider = ({ children }: { children: ReactNode }): R
       asset,
       tokenAccessDetails,
       handleOrder,
+      isVerifyingAccess,
       isLoadingOrder,
       hasAccess,
       getServicePrice,
-      isAcceptedWeb3ChainId,
-      isWeb3WalletConnected,
-      web3WalletAddress,
       totalSpentOnAssets,
       totalUnlockedAssets,
       unlockedAssetsArray,
-    ],
+      hasSufficientFunds,
+      hasFunds,
+    ]
   );
 
-  return <AssetOwnershipContext.Provider value={value}>{children}</AssetOwnershipContext.Provider>;
+  return (
+    <AssetOwnershipContext.Provider value={value}>
+      {children}
+    </AssetOwnershipContext.Provider>
+  );
 };
 
 export const useAssetOwnershipContext = (): AssetOwnershipContextType => {

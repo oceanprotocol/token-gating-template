@@ -12,7 +12,13 @@ import useChallenges from './useChallenges';
 import ContentLayout from '../../custom/ContentLayout';
 
 const Challenges: NextPage = () => {
-  const { tokenAccessDetails, asset, isLoadingOrder, hasAccess } = useAssetOwnershipContext();
+  const {
+    tokenAccessDetails,
+    asset,
+    isVerifyingAccess,
+    isLoadingOrder,
+    hasAccess,
+  } = useAssetOwnershipContext();
   const { CardsContent } = useChallenges();
 
   return (
@@ -22,7 +28,7 @@ const Challenges: NextPage = () => {
           <div
             className={cs(
               style.container,
-              'd-flex flex-column flex-md-row justify-content-center align-items-center flex-nowrap flex-md-wrap',
+              'd-flex flex-column flex-md-row justify-content-center align-items-center flex-nowrap flex-md-wrap'
             )}
           >
             {CardsContent.map((content) => {
@@ -43,7 +49,7 @@ const Challenges: NextPage = () => {
           serviceIndex={DemoAssetIndexEnum.CHALLENGES}
           accessDetails={tokenAccessDetails}
           asset={asset}
-          loading={isLoadingOrder}
+          loading={isLoadingOrder || isVerifyingAccess}
         />
       )}
     </ContentLayout>

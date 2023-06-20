@@ -8,18 +8,28 @@ import { WalletConnectProvider } from '../shared/contexts/WalletConnect.context'
 import Layout from '../components/custom/Layout';
 import { AssetOwnershipProvider } from '../shared/contexts/AssetOwnership.context';
 import UrqlProvider from '../shared/@ocean/context/UrqlProvider';
+import { WagmiConfig } from 'wagmi';
+import {
+  connectKitTheme,
+  wagmiClient,
+} from '../shared/@ocean/utilities/wallet';
+import { ConnectKitProvider } from 'connectkit';
 
 export function App({ Component, pageProps }: AppProps) {
   return (
-    <UrqlProvider>
-      <WalletConnectProvider>
-        <AssetOwnershipProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AssetOwnershipProvider>
-      </WalletConnectProvider>
-    </UrqlProvider>
+    <WagmiConfig client={wagmiClient}>
+      <ConnectKitProvider theme="auto" mode="dark">
+        <UrqlProvider>
+          <WalletConnectProvider>
+            <AssetOwnershipProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </AssetOwnershipProvider>
+          </WalletConnectProvider>
+        </UrqlProvider>
+      </ConnectKitProvider>
+    </WagmiConfig>
   );
 }
 

@@ -11,7 +11,7 @@ import {
   ProviderInitialize,
   ProviderInstance,
 } from '@oceanprotocol/lib';
-import Web3 from 'web3';
+import { Signer } from 'ethers';
 import { TransactionReceipt } from 'web3-eth';
 import config from '../../../../config';
 import { getOceanConfig } from '../utilities/ocean';
@@ -20,7 +20,7 @@ export default function useOrder() {
   async function initializeProvider(
     asset: AssetExtended,
     accountId: string,
-    providerFees?: ProviderFees,
+    providerFees?: ProviderFees
   ): Promise<ProviderInitialize> {
     if (providerFees) return;
     try {
@@ -29,7 +29,7 @@ export default function useOrder() {
         asset.services[0].id,
         0,
         accountId,
-        asset.services[0].serviceEndpoint,
+        asset.services[0].serviceEndpoint
       );
       return provider;
     } catch (error) {
@@ -38,18 +38,22 @@ export default function useOrder() {
   }
 
   async function order(
-    web3: Web3,
+    web3: Signer,
     asset: AssetExtended,
     accessDetails: AccessDetails,
     orderPriceAndFees: OrderPriceAndFees,
     accountId: string,
     providerFees?: ProviderFees,
-    computeConsumerAddress?: string,
+    computeConsumerAddress?: string
   ): Promise<TransactionReceipt> {
     const datatoken = new Datatoken(web3);
     const configOcean = getOceanConfig(asset.chainId);
 
-    const initializeData = await initializeProvider(asset, accountId, providerFees);
+    const initializeData = await initializeProvider(
+      asset,
+      accountId,
+      providerFees
+    );
 
     const orderParams = {
       consumer: computeConsumerAddress || accountId,
@@ -58,7 +62,9 @@ export default function useOrder() {
       _consumeMarketFee: {
         consumeMarketFeeAddress: config.oceanApp.marketFeeAddress,
         consumeMarketFeeAmount: config.oceanApp.consumeMarketOrderFee,
-        consumeMarketFeeToken: accessDetails?.baseToken?.address || '0x0000000000000000000000000000000000000000',
+        consumeMarketFeeToken:
+          accessDetails?.baseToken?.address ||
+          '0x0000000000000000000000000000000000000000',
       },
     } as OrderParams;
 
@@ -73,8 +79,15 @@ export default function useOrder() {
     } as FreOrderParams;
 
     if (accessDetails.templateId === 1) {
+      if (!configOcean.fixedRateExchangeAddress) {
+        return;
+      }
       // buy datatoken
-      const amount = await amountToUnits(web3, accessDetails?.baseToken?.address, orderPriceAndFees.price);
+      const amount = await amountToUnits(
+        web3,
+        accessDetails?.baseToken?.address,
+        orderPriceAndFees.price
+      );
       const txApprove = await approve(
         web3,
         configOcean,
@@ -82,29 +95,31 @@ export default function useOrder() {
         accessDetails.baseToken.address,
         configOcean.fixedRateExchangeAddress,
         amount,
-        false,
+        false
       );
       if (!txApprove) {
         return;
       }
 
-      const fre = new FixedRateExchange(configOcean.fixedRateExchangeAddress, web3);
-      await fre.buyDatatokens(
-        accountId,
+      const fre = new FixedRateExchange(
+        configOcean.fixedRateExchangeAddress,
+        web3
+      );
+
+      const freTx = await fre.buyDatatokens(
         accessDetails?.addressOrId,
         '1',
         orderPriceAndFees.price,
-        config.oceanAppmarketFeeAddress,
-        config.oceanApp.consumeMarketFixedSwapFee,
+        config.oceanApp.marketFeeAddress,
+        config.oceanApp.consumeMarketFixedSwapFee
       );
 
-      const tx: TransactionReceipt = await datatoken.startOrder(
+      const tx: any = await datatoken.startOrder(
         accessDetails.datatoken.address,
-        accountId,
         orderParams.consumer,
         orderParams.serviceIndex,
         orderParams._providerFee,
-        orderParams._consumeMarketFee,
+        orderParams._consumeMarketFee
       );
       return tx;
     }
@@ -115,13 +130,21 @@ export default function useOrder() {
         accountId,
         accessDetails.baseToken.address,
         accessDetails.datatoken.address,
-        await amountToUnits(web3, accessDetails?.baseToken?.address, orderPriceAndFees.price),
-        false,
+        await amountToUnits(
+          web3,
+          accessDetails?.baseToken?.address,
+          orderPriceAndFees.price
+        ),
+        false
       );
       if (!txApprove) {
         return;
       }
-      return datatoken.buyFromFreAndOrder(accessDetails.datatoken.address, accountId, orderParams, freParams);
+      return await datatoken.buyFromFreAndOrder(
+        accessDetails.datatoken.address,
+        orderParams,
+        freParams
+      );
     }
   }
 

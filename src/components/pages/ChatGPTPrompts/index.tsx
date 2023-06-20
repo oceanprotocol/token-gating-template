@@ -9,7 +9,13 @@ import useChatGPTPrompts from './useChatGPTPrompts';
 import ContentLayout from '../../custom/ContentLayout';
 
 const ChatGPTPrompts: NextPage = () => {
-  const { tokenAccessDetails, isLoadingOrder, asset, hasAccess } = useAssetOwnershipContext();
+  const {
+    tokenAccessDetails,
+    isLoadingOrder,
+    isVerifyingAccess,
+    asset,
+    hasAccess,
+  } = useAssetOwnershipContext();
   const { CardsContent } = useChatGPTPrompts();
 
   return (
@@ -37,7 +43,7 @@ const ChatGPTPrompts: NextPage = () => {
             serviceIndex={DemoAssetIndexEnum.CHATGPT_PROMPTS}
             accessDetails={tokenAccessDetails}
             asset={asset}
-            loading={isLoadingOrder}
+            loading={isLoadingOrder || isVerifyingAccess}
           />
         )}
       </ContentLayout>

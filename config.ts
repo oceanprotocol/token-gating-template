@@ -97,6 +97,7 @@ export type ConfigType = {
     networkDecimals: number;
   };
   did: string;
+  BackendOrderTimeBuffer: number;
 };
 
 const config: ConfigType = {
@@ -112,7 +113,9 @@ const config: ConfigType = {
     // In components can be accessed with the useMarketMetadata hook:
     // const { appConfig } = useMarketMetadata()
     // return appConfig.metadataCacheUri
-    metadataCacheUri: process.env.NEXT_PUBLIC_METADATACACHE_URI || 'https://v4.aquarius.oceanprotocol.com',
+    metadataCacheUri:
+      process.env.NEXT_PUBLIC_METADATACACHE_URI ||
+      'https://v4.aquarius.oceanprotocol.com',
 
     // List of chainIds which metadata cache queries will return by default.
     // This preselects the Chains user preferences.
@@ -125,20 +128,40 @@ const config: ConfigType = {
 
     defaultDatatokenTemplateIndex: 2,
     // The ETH address the marketplace fee will be sent to.
-    marketFeeAddress: process.env.NEXT_PUBLIC_MARKET_FEE_ADDRESS || '0x9984b2453eC7D99a73A5B3a46Da81f197B753C8d',
+    marketFeeAddress:
+      process.env.NEXT_PUBLIC_MARKET_FEE_ADDRESS ||
+      '0x9984b2453eC7D99a73A5B3a46Da81f197B753C8d',
     // publisher market fee that is taken upon ordering an asset, it is an absolute value, it is declared on erc20 creation
-    publisherMarketOrderFee: process.env.NEXT_PUBLIC_PUBLISHER_MARKET_ORDER_FEE || '0',
+    publisherMarketOrderFee:
+      process.env.NEXT_PUBLIC_PUBLISHER_MARKET_ORDER_FEE || '0',
     // fee recieved by the publisher market when a dt is bought from a fixed rate exchange, percent
-    publisherMarketFixedSwapFee: process.env.NEXT_PUBLIC_PUBLISHER_MARKET_FIXED_SWAP_FEE || '0',
+    publisherMarketFixedSwapFee:
+      process.env.NEXT_PUBLIC_PUBLISHER_MARKET_FIXED_SWAP_FEE || '0',
 
     // consume market fee that is taken upon ordering an asset, it is an absolute value, it is specified on order
-    consumeMarketOrderFee: process.env.NEXT_PUBLIC_CONSUME_MARKET_ORDER_FEE || '0',
+    consumeMarketOrderFee:
+      process.env.NEXT_PUBLIC_CONSUME_MARKET_ORDER_FEE || '0',
     // fee recieved by the consume market when a dt is bought from a fixed rate exchange, percent
-    consumeMarketFixedSwapFee: process.env.NEXT_PUBLIC_CONSUME_MARKET_FIXED_SWAP_FEE || '0',
+    consumeMarketFixedSwapFee:
+      process.env.NEXT_PUBLIC_CONSUME_MARKET_FIXED_SWAP_FEE || '0',
 
     // Used for conversion display, can be whatever coingecko API supports
     // see: https://api.coingecko.com/api/v3/simple/supported_vs_currencies
-    currencies: ['EUR', 'USD', 'CAD', 'GBP', 'SGD', 'HKD', 'CNY', 'JPY', 'INR', 'RUB', 'ETH', 'BTC', 'LINK'],
+    currencies: [
+      'EUR',
+      'USD',
+      'CAD',
+      'GBP',
+      'SGD',
+      'HKD',
+      'CNY',
+      'JPY',
+      'INR',
+      'RUB',
+      'ETH',
+      'BTC',
+      'LINK',
+    ],
 
     // Tokens to fetch the spot prices from coingecko, against above currencies.
     // Refers to Coingecko API tokenIds.
@@ -165,7 +188,8 @@ const config: ConfigType = {
     // If set to true a gdpr.json file inside the content directory
     // is used to create and show a privacy preference center / cookie banner
     // To learn more about how to configure and use this, please refer to the readme
-    privacyPreferenceCenter: process.env.NEXT_PUBLIC_PRIVACY_PREFERENCE_CENTER || 'false',
+    privacyPreferenceCenter:
+      process.env.NEXT_PUBLIC_PRIVACY_PREFERENCE_CENTER || 'false',
   },
   routes: {
     homepage: '/homepage',
@@ -186,22 +210,30 @@ const config: ConfigType = {
   },
   network: {
     networkTokenDecimals: 18,
-    acceptedChainId: parseInt(process.env.NEXT_PUBLIC_ACCEPTED_CHAIN_ID || '0', 10) || 80001,
+    acceptedChainId:
+      parseInt(process.env.NEXT_PUBLIC_ACCEPTED_CHAIN_ID || '0', 10) || 80001,
     chains: {
       137: 'Polygon Mainnet',
       80001: 'Mumbai Testnet',
     },
-    rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || 'https://matic-mumbai.chainstacklabs.com/',
+    rpcUrl:
+      process.env.NEXT_PUBLIC_RPC_URL ||
+      'https://matic-mumbai.chainstacklabs.com/',
     pleaseSelectNetwork: {
       137: 'Please select Polygon Mainnet from wallet.',
       80001: 'Please select Mumbai Testnet from wallet.',
     },
   },
   oceanNetwork: {
-    contract: process.env.NEXT_PUBLIC_OCEAN_CONTRACT || '0xd8992Ed72C445c35Cb4A2be468568Ed1079357c8',
+    contract:
+      process.env.NEXT_PUBLIC_OCEAN_CONTRACT ||
+      '0xd8992Ed72C445c35Cb4A2be468568Ed1079357c8',
     networkDecimals: 18,
   },
   did: 'did:op:2497bdb5c4eed690bfb47f81d3d37d9cc6aaf2a05527a392d622396854372a92',
+  BackendOrderTimeBuffer: process.env.NEXT_PUBLIC_BACKEND_ORDER_TIME_BUFFER
+    ? parseInt(process.env.NEXT_PUBLIC_BACKEND_ORDER_TIME_BUFFER, 10)
+    : 10000,
 };
 
 export default config;

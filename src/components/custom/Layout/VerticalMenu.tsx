@@ -11,10 +11,15 @@ import styles from './styles.module.scss';
 import logoHeader from '../../../assets/logo.svg';
 import Lock from '../Lock';
 import useVerticalMenu from './hooks/useVerticalMenu';
+import config from '../../../../config';
 
 type VerticalMenuPropsType = {
   isExpanded: boolean;
 };
+
+const {
+  routes: { homepage },
+} = config;
 
 const VerticalMenu: NextPage<VerticalMenuPropsType> = ({ isExpanded }) => {
   const { t } = useTranslation(['common']);
@@ -30,7 +35,13 @@ const VerticalMenu: NextPage<VerticalMenuPropsType> = ({ isExpanded }) => {
         { [styles.collapseVerticalMenu]: isExpanded },
       ])}
     >
-      <Image src={logoHeader} alt="logo" className={cx(styles.headerLogo, 'mt-5')} />
+      <Link href={homepage} className="mx-auto">
+        <Image
+          src={logoHeader}
+          alt="logo"
+          className={cx(styles.headerLogo, 'mt-5')}
+        />
+      </Link>
       <div className="d-flex flex-column mt-5 px-2">
         {MenuLinks.map((link) => {
           return (
@@ -39,7 +50,7 @@ const VerticalMenu: NextPage<VerticalMenuPropsType> = ({ isExpanded }) => {
                 className={cx(
                   styles.navBtn,
                   'mb-3 d-flex flex-row justify-content-between align-items-center',
-                  router.pathname === link.href ? styles.activeNavBtn : '',
+                  router.pathname === link.href ? styles.activeNavBtn : ''
                 )}
                 href={link.href}
               >

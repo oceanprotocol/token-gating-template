@@ -1,0 +1,26 @@
+.action {
+  display: flex;
+  justify-content: row;
+  justify-items: center;
+  align-items: center;
+}
+
+.button {
+
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.feedback {
+  font-size: var(--font-size-small);
+  color: var(--raisin-black);
+}

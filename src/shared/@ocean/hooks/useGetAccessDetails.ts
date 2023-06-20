@@ -2,27 +2,42 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import { Config, ConfigHelper, ProviderFees, ProviderInstance } from '@oceanprotocol/lib';
 import Decimal from 'decimal.js';
-import { OperationContext, OperationResult, TypedDocumentNode } from 'urql';
-import Web3 from 'web3';
-import appConfig from '../../../../config';
-import { getFixedBuyPrice } from '../utilities/fixedRateExchange';
-import { tokenPriceQuery } from '../utilities/tokenPriceQuery';
-import { getUrqlClientInstance } from '../context/UrqlProvider';
-import { TokenPriceQuery, TokenPriceQueryToken, TokenPriceQueryTokenOrdersReuses } from '../@types/TokenPriceQuery';
+import { OperationContext, OperationResult, TypedDocumentNode } from "urql";
+import { Signer } from 'ethers';
+import appConfig from "../../../../config";
+import { getFixedBuyPrice } from "../utilities/fixedRateExchange";
+import { tokenPriceQuery } from "../utilities/tokenPriceQuery";
+import { getUrqlClientInstance } from "../context/UrqlProvider";
+import {
+  TokenPriceQuery,
+  TokenPriceQueryToken,
+  TokenPriceQueryTokenOrdersReuses,
+} from "../@types/TokenPriceQuery";
 
-function getAccessDetailsFromTokenPrice(tokenPrice: TokenPriceQueryToken, timeout?: number): AccessDetails {
+function getAccessDetailsFromTokenPrice(
+  tokenPrice: TokenPriceQueryToken,
+  timeout?: number
+): AccessDetails {
   const accessDetails = {} as AccessDetails;
 
   // Return early when no supported pricing schema found.
-  if (tokenPrice?.dispensers?.length === 0 && tokenPrice?.fixedRateExchanges?.length === 0) {
-    accessDetails.type = 'NOT_SUPPORTED';
+  if (
+    tokenPrice?.dispensers?.length === 0 &&
+    tokenPrice?.fixedRateExchanges?.length === 0
+  ) {
+    accessDetails.type = "NOT_SUPPORTED";
     return accessDetails;
   }
   if (tokenPrice?.orders?.length && tokenPrice?.orders?.length > 0) {
     const order = tokenPrice.orders[0];
-    const providerFees: ProviderFees = order?.providerFee ? JSON.parse(order.providerFee) : null;
+    const providerFees: ProviderFees = order?.providerFee
+      ? JSON.parse(order.providerFee)
+      : null;
     accessDetails.validProviderFees =
-      providerFees?.validUntil && Date.now() / 1000 < Number(providerFees?.validUntil) ? providerFees : undefined;
+      providerFees?.validUntil &&
+      Date.now() / 1000 < Number(providerFees?.validUntil)
+        ? providerFees
+        : undefined;
     // eslint-disable-next-line camelcase
     let reusedOrder: TokenPriceQueryTokenOrdersReuses | null = null;
     if (order.reuses && order.reuses.length > 0) {
@@ -30,7 +45,8 @@ function getAccessDetailsFromTokenPrice(tokenPrice: TokenPriceQueryToken, timeou
     }
     // asset is owned if there is an order and asset has timeout 0 (forever) or if the condition is valid
     // eslint-disable-next-line no-unsafe-optional-chaining
-    accessDetails.isOwned = timeout === 0 || Date.now() / 1000 - order?.createdTimestamp < timeout;
+    accessDetails.isOwned =
+      timeout === 0 || Date.now() / 1000 - order?.createdTimestamp < timeout;
     // the last valid order should be the last reuse order tx id if there is one
     accessDetails.validOrderTx = reusedOrder?.tx || order?.tx;
   }
@@ -39,7 +55,7 @@ function getAccessDetailsFromTokenPrice(tokenPrice: TokenPriceQueryToken, timeou
   accessDetails.publisherMarketOrderFee = tokenPrice?.publishMarketFeeAmount;
 
   const fixed = tokenPrice.fixedRateExchanges[0];
-  accessDetails.type = 'fixed';
+  accessDetails.type = "fixed";
   accessDetails.addressOrId = fixed.exchangeId;
   accessDetails.price = fixed.price;
   // in theory we should check dt balance here, we can skip this because in the market we always create fre with minting capabilities.
@@ -72,10 +88,10 @@ function getAccessDetailsFromTokenPrice(tokenPrice: TokenPriceQueryToken, timeou
 export async function getOrderPriceAndFees(
   asset: AssetExtended,
   accessDetails: AccessDetails,
-  web3: Web3,
+  web3: Signer,
   accountId?: string,
   serviceIndex?: number,
-  providerFees?: ProviderFees,
+  providerFees?: ProviderFees
 ): Promise<OrderPriceAndFees> {
   const orderPriceAndFee = {
     price: String(accessDetails.price || '0'),
@@ -97,7 +113,7 @@ export async function getOrderPriceAndFees(
       asset?.services[serviceIndex || 0].id,
       0,
       accountId,
-      asset?.services[serviceIndex || 0].serviceEndpoint,
+      asset?.services[serviceIndex || 0].serviceEndpoint
     ));
   orderPriceAndFee.providerFee = providerFees || initializeData.providerFee;
 
@@ -121,9 +137,15 @@ export async function getOrderPriceAndFees(
   return orderPriceAndFee;
 }
 
-export async function fetchData(query: TypedDocumentNode, variables: any, context: OperationContext): Promise<any> {
+export async function fetchData(
+  query: TypedDocumentNode,
+  variables: any,
+  context: OperationContext
+): Promise<any> {
   try {
-    return await getUrqlClientInstance().query(query, variables, context).toPromise();
+    return await getUrqlClientInstance()
+      .query(query, variables, context)
+      .toPromise();
   } catch (error) {
     // eslint-disable-next-line
     console.log(error);
@@ -134,15 +156,15 @@ export async function fetchData(query: TypedDocumentNode, variables: any, contex
 export function getOceanConfig(network: string | number): Config {
   const config = new ConfigHelper().getConfig(
     network,
-    network === 'polygon' ||
-      network === 'moonbeamalpha' ||
+    network === "polygon" ||
+      network === "moonbeamalpha" ||
       network === 1287 ||
-      network === 'bsc' ||
+      network === "bsc" ||
       network === 56 ||
-      network === 'gaiaxtestnet' ||
+      network === "gaiaxtestnet" ||
       network === 2021000
       ? undefined
-      : process.env.NEXT_PUBLIC_INFURA_PROJECT_ID,
+      : process.env.NEXT_PUBLIC_INFURA_PROJECT_ID
   ) as Config;
   return config as Config;
 }
@@ -156,13 +178,15 @@ export function getQueryContext(chainId: number): OperationContext {
   try {
     if (!appConfig.oceanApp.chainIdsSupported.includes(chainId)) {
       // eslint-disable-next-line no-console
-      console.log(new Error('network not supported, query context cancelled'));
+      console.log(new Error("network not supported, query context cancelled"));
       return;
     }
 
     return {
-      url: `${getSubgraphUri(Number(chainId))}/subgraphs/name/oceanprotocol/ocean-subgraph`,
-      requestPolicy: 'network-only',
+      url: `${getSubgraphUri(
+        Number(chainId)
+      )}/subgraphs/name/oceanprotocol/ocean-subgraph`,
+      requestPolicy: "network-only",
     };
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -174,21 +198,23 @@ export async function getAccessDetails(
   chainId: number,
   datatokenAddress: string,
   timeout?: number,
-  account = '',
+  account = ""
 ): Promise<AccessDetails> {
   try {
     const queryContext = getQueryContext(Number(chainId));
-    const tokenQueryResult: OperationResult<TokenPriceQuery, { datatokenId: string; account: string }> =
-      await fetchData(
-        tokenPriceQuery,
-        {
-          datatokenId: datatokenAddress.toLowerCase(),
-          account: account?.toLowerCase(),
-        },
-        queryContext,
-      );
+    const tokenQueryResult: OperationResult<
+      TokenPriceQuery,
+      { datatokenId: string; account: string }
+    > = await fetchData(
+      tokenPriceQuery,
+      {
+        datatokenId: datatokenAddress.toLowerCase(),
+        account: account?.toLowerCase(),
+      },
+      queryContext
+    );
     // eslint-disable-next-line camelcase
-    const tokenPrice: TokenPriceQuery = tokenQueryResult.data.token;
+    const tokenPrice: TokenPrice = tokenQueryResult.data.token;
 
     const accessDetails = getAccessDetailsFromTokenPrice(tokenPrice, timeout);
     return accessDetails;
