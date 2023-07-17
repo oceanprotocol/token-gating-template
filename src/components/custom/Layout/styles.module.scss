@@ -139,6 +139,13 @@
   margin-bottom: 1rem;
 }
 
+.navLink {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .navBtn {
   background-color: transparent;
   border: none;
@@ -167,7 +174,7 @@
 
 .linkMobile {
   padding: 10px 30px;
-  width: 374px;
+  width: 100%;
   height: 40px;
   background: #eaeaea;
   border-radius: 5px;

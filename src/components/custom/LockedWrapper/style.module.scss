@@ -22,6 +22,12 @@
   background: var(--magenta);
   border: 1px solid var(--magenta);
   border-radius: 20px;
+  
+  &:disabled {
+    background: var(--border);
+    border: 1px solid var(--border);
+    color: var(--font-color-text);
+  }
 }
 
 .wrapperContainer {

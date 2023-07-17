@@ -23,6 +23,24 @@
   border-right: 1px solid var(--gainsboro);
 }
 
+.imageWrap,
+.image {
+  width: 96px !important;
+  height: 96px !important;
+}
+
+.imageWrap {
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: calc(var(--spacer) / 4);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 17px 0 var(--box-shadow-color);
+}
+
+.image {
+  max-width: unset;
+}
+
 @media only screen and (max-width: 500px) {
   .container {
     padding: 28px 0;

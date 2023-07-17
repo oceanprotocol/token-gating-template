@@ -17,6 +17,7 @@ import useHeader from './hooks/useHeader';
 import config from '../../../../config';
 import WalletAuth from '../WalletAuth';
 import Lock from '../Lock';
+import Wallet from '../Wallet';
 
 type HeaderPropsType = {
   toggleMenu: () => void;
@@ -24,16 +25,13 @@ type HeaderPropsType = {
 };
 
 const {
-  routes: { profile },
+  routes: { homepage, profile },
 } = config;
 
 const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
   const { t } = useTranslation(['common']);
   const {
     NavigationLinks,
-    showModal,
-    openModal,
-    closeModal,
     isBurgerMenuOpen,
     handleBurgerMenuClick,
     handleBurgerClose,
@@ -41,12 +39,11 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
 
   return (
     <>
-      <ConnectWalletModal showModal={showModal} onClose={closeModal} />
       <div>
         <nav
           className={cx(
             styles.bgHeader,
-            "navbar navbar-expand-lg navbar-black bg-black px-3"
+            'navbar navbar-expand-lg navbar-black bg-black px-3'
           )}
         >
           <div className="d-flex flex-row justify-content-between w-100 py-3">
@@ -59,22 +56,24 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
                 <Image
                   className={cx(
                     isExpanded ? styles.expandButton : styles.nonExpandButton,
-                    "d-none d-md-flex"
+                    'd-none d-md-flex'
                   )}
                   src={NavBar}
                   alt="navbar logo"
                 />
               </button>
               <div className="d-flex flex-row d-md-none justify-content-between align-items-center">
-                <Image
-                  src={logoHeader}
-                  alt="navbar logo"
-                  className={cx(styles.mobileHeaderLogo, "ms-2")}
-                />
+                <Link href={homepage}>
+                  <Image
+                    src={logoHeader}
+                    alt="navbar logo"
+                    className={cx(styles.mobileHeaderLogo, 'ms-2')}
+                  />
+                </Link>
                 <div
                   className={cx(
                     styles.burgerButton,
-                    "d-flex d-md-none order-0 me-2"
+                    'd-flex d-md-none order-0 me-2'
                   )}
                   onClick={handleBurgerMenuClick}
                 />
@@ -83,15 +82,27 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
             <AcceptedChains />
             <div
               className={cx(
-                "collapse navbar-collapse d-md-flex justify-content-end d-none"
+                'collapse navbar-collapse d-md-flex justify-content-end d-none'
               )}
             >
               <ul className="navbar-nav">
-                <WalletAuth openModal={openModal} />
-                <Link className="nav-item mx-3 d-none d-md-flex" href={profile}>
+                <Wallet />
+                <Link
+                  className={cx(
+                    styles.navLink,
+                    'nav-item mx-3 d-none d-md-flex'
+                  )}
+                  href={profile}
+                >
                   <Image src={personLogo} alt="person logo" />
                 </Link>
-                <Link className="nav-item mx-3 d-none d-md-flex" href="/">
+                <Link
+                  className={cx(
+                    styles.navLink,
+                    'nav-item mx-3 d-none d-md-flex'
+                  )}
+                  href="/"
+                >
                   <Image src={walletLogo} alt="wallet logo" />
                 </Link>
               </ul>
@@ -102,13 +113,12 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
               className={cx(
                 styles.mobileHeaderContainer,
                 styles.bgHeader,
-                "d-flex d-md-none"
+                'd-flex d-md-none px-0'
               )}
             >
               <div
                 className={cx(
-                  styles.mobileHeaderLinks,
-                  "d-flex d-md-none flex-column justify-content-start align-items-center w-100 mb-5"
+                  'd-flex d-md-none flex-column justify-content-start align-items-center w-100 mb-5'
                 )}
               >
                 {NavigationLinks.map((link) => {
@@ -119,7 +129,7 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
                         onClick={handleBurgerClose}
                         className={cx(
                           styles.linkMobile,
-                          "d-flex flex-row my-2"
+                          'd-flex flex-row my-2'
                         )}
                       >
                         {link.index !== undefined && (
@@ -135,6 +145,7 @@ const Header: NextPage<HeaderPropsType> = ({ toggleMenu, isExpanded }) => {
                     </React.Fragment>
                   );
                 })}
+                <Wallet mobile />
               </div>
             </div>
           )}

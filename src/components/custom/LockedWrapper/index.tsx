@@ -23,20 +23,29 @@ const LockedWrapper: NextPage<LockedWrapperPropType> = ({
   asset,
   loading,
 }) => {
-  const { hasAccess, getServicePrice, handleOrder } = useAssetOwnershipContext();
+  const { hasAccess, getServicePrice, handleOrder } =
+    useAssetOwnershipContext();
 
   return (
     <div
       className={cs(
         style.wrapperContainer,
-        'position-relative mx-0 mx-md-5 d-flex flex-row justify-content-center mt-4',
+        'position-relative mx-0 mx-md-5 d-flex flex-row justify-content-center mt-4'
       )}
     >
-      <video autoPlay muted loop src="/AdobeStock_279259623.mov" className={cs(style.imgBlur)} />
+      <video
+        autoPlay
+        muted
+        loop
+        src="/AdobeStock_279259623.mov"
+        className={cs(style.imgBlur)}
+      />
       <Wrapper
         show={!hasAccess(serviceIndex)}
         price={getServicePrice(serviceIndex)}
-        unlock={() => handleOrder(serviceTitle, serviceIndex, accessDetails, asset)}
+        unlock={() =>
+          handleOrder(serviceTitle, serviceIndex, accessDetails, asset)
+        }
         loading={loading}
       />
     </div>
